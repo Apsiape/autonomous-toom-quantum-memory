@@ -1,0 +1,136 @@
+\section{A fixed current-syndrome decoder}\label{sec:decoder}
+
+We construct a deterministic function \(D(s)\) with
+\(\partial_2D(s)=s\) on every attainable syndrome \(s\). The same
+definition is used on the primal and dual complexes, with separate
+fixed orderings of their cells. No mark times enter this definition.
+
+\subsection{Filling a small component}
+
+Set \(\delta=L/100\). Fix representatives of torus vertices and a
+lexicographic ordering of all torus plaquettes. Suppose every
+edge-connected component of \(s\) has ambient torus diameter less
+than \(\delta\). For a nonempty component \(\Gamma\), choose its
+lexicographically least vertex \(v_\Gamma\). Lift every vertex by
+its shortest coordinate displacement in \((-L/2,L/2]\) from this
+anchor, and let \(K_\Gamma\) be the coordinate box between the lifted
+coordinate extrema.
+
+Each lifted vertex lies within \(\delta\) of the anchor. The box has
+each side length at most \(2\delta\); its projection embeds for large
+\(L\). Neighbouring vertices lift consistently: a coordinate
+difference between their lifts is at most \(2\delta<L-1\), which
+rules out the spurious displacement \(L-1\) across a unit torus edge.
+All edges of \(\Gamma\) therefore lift to edges of this box.
+Even degree at every vertex makes the component a cellular 1-cycle.
+
+Here is an explicit reason that this cycle fills. A cubical box is
+a product of integer intervals, allowing intervals of length zero.
+Collapse the final layer in one nondegenerate coordinate interval
+onto the preceding layer. On cellular chains let \(p\) be that
+projection, and let \(\kappa_h\) send a horizontal cell in the final layer
+to its prism across the collapsed unit interval; let \(\kappa_h\) vanish
+on other cells. Directly on each cell,
+\[
+ \partial\kappa_h+\kappa_h\partial=\id+p
+\]
+over \(\F\): the two horizontal faces of a prism give the cell and
+its projected copy, while the side-face terms cancel. For a cell
+crossing the layer, its top horizontal face supplies that prism
+in \(\kappa_h\partial\), giving the same identity. Iterating the collapses
+in all coordinates contracts the box to a vertex. Thus every
+positive-dimensional cycle in the box is a boundary, including
+every 1-cycle and 2-cycle. This also covers degenerate boxes.
+
+Choose the lexicographically least plaquette subset in \(K_\Gamma\)
+whose boundary is \(\Gamma\), with ordering induced by its projection
+to torus cells. A finite set of fillings is nonempty by the
+contraction, so this choice is well defined. Project back to the
+torus and add the component fillings modulo two. Call the resulting
+chain \(D(s)\). Set \(D(0)=0\). If some component has diameter at
+least \(\delta\), use instead the lexicographically least global
+solution of \(\partial_2D=s\). Attainability means
+\(s\in\operatorname{im}\partial_2\), so a solution exists in that
+case as well.
+
+The construction is fixed once the cell orderings are fixed. In
+particular an unchanged small component has exactly the same filling
+at every observation. This consistency, rather than optimal area,
+is its essential property.
+
+\subsection{Invariance across a physical face flip}
+
+For a current error chain \(E\), define its filled homology class by
+\begin{equation}\label{eq:filled-class}
+ \mathfrak h(E)=[E+D(\partial_2E)]\in H_2(K_L;\F).
+\end{equation}
+The bracket is meaningful since the displayed chain is closed.
+
+\begin{lemma}[Local preservation of filled homology]\label{lem:homology}
+For all sufficiently large \(L\), let \(E'=E+p\) differ from \(E\)
+by one plaquette. If every syndrome component of both
+\(s=\partial_2E\) and \(s'=\partial_2E'\) has diameter less than
+\(\delta\), then
+\[
+ \mathfrak h(E')=\mathfrak h(E).
+\]
+This holds for arbitrary merges, splits, creation or disappearance
+of components at that flip, and on the dual complex as well.
+\end{lemma}
+\begin{proof}
+The only modified syndrome edges lie in \(\partial p\).
+Any component in either decomposition that does not meet a vertex
+of \(p\) remains unchanged. Indeed its edges and their incident
+connections are untouched; a changed connection would have an
+endpoint on \(p\). Conversely, a component changed by deletion or
+insertion has a path to a modified edge and hence meets a vertex
+of \(p\). The fillings of all unchanged components cancel in
+\(D(s)+D(s')\).
+
+Lift \(p\) once to the integer lattice. Align the anchor lift of
+each affected component using one of its vertices on this face.
+Its anchor is within \(\delta\) of that shared vertex, and its
+filling box is within \(\delta\) in each coordinate of the anchor.
+Thus all affected fillings, together with \(p\), are supported in
+one integer box within coordinate distance \(2\delta+2\) of a fixed
+vertex of \(p\). For large \(L\) the width \(4\delta+4\) is less
+than \(L-1\), so the common box embeds in the torus.
+
+The chain
+\[
+ C=p+D(s)+D(s')
+\]
+has boundary \(\partial p+s+s'=0\). Its uncancelled support is in
+the common box. The contraction above makes \(C\) the boundary of
+a 3-chain there. Consequently adding \(C\) does not change the
+homology class in \eqref{eq:filled-class}. Duality preserves all
+these incidence and support properties, proving the last assertion.
+\end{proof}
+
+\begin{corollary}[Retention along the marked history]\label{cor:retention}
+In either sector, started with \(E=0\), the probability that
+\(\mathfrak h(E_s)\ne0\) at any \(s\le t\) is at most
+\(C_0(1+t)e^{-\beta L}\), with constants as in
+Proposition~\ref{prop:history}. An initial closed chain \(E_0\)
+instead gives retention of its initial filled class with the same
+bound.
+\end{corollary}
+\begin{proof}
+On a finite torus there are finitely many clock rings up to each
+finite \(t\), almost surely, even if that deterministic \(t\) is
+exponentially large in \(L\). Order all effective face flips.
+If the large-component event of
+Proposition~\ref{prop:history} does not occur, each flip has only
+small components on both sides. Lemma~\ref{lem:homology} propagates
+the initial class through all of them. With \(E=0\) it starts at
+zero. For an added closed initial chain, the syndrome and the
+enabled correction predicates are identical under common marks;
+the decoded class is shifted by its fixed initial class. The same
+large-component event therefore controls a change in that class.
+\end{proof}
+
+The decoder need not infer an initial logical class from the
+syndrome. An encoded start supplies that class. More generally, a
+syndrome-only recovery can preserve a known encoded input through
+this dynamics but cannot distinguish two initial errors differing
+by a hidden logical membrane.

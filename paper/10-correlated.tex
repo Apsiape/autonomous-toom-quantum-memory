@@ -1,0 +1,621 @@
+\section{Spacetime local stochastic Pauli noise}\label{sec:correlated}
+
+This section extends the finite-torus memory theorem. The correction
+rule, correction-clock marginal and decoder are unchanged. The noise
+is now specified by a classical joint trajectory law rather than,
+in general, by an additive Lindblad noise generator.
+
+\subsection{Lindbladian correction, trajectory-defined noise}
+
+Fix integers \(g\ge1\) and \(r_0\ge0\), independently of \(L\).
+There are at most \(g\) anchor labels at each spatial lattice
+vertex. Each anchor \(\alpha\) has a fixed footprint of data qubits
+within sup radius \(r_0\) of its position. Enlarge this fixed radius
+if necessary to contain the vertices of both the associated primal
+and dual faces. The time unit is the inverse correction rate, as
+in Section~\ref{sec:model}. Elementary locations are
+\[
+ (\alpha,j),\qquad \mathsf I_j=(j,j+1],\qquad j=0,1,\ldots .
+\]
+Let \(\mathcal F\) be a random set of such locations. For a strength
+\(0<p<1\), impose the spacetime local-stochastic condition
+\begin{equation}\label{eq:local-stochastic}
+ \Prb\{S\subseteq\mathcal F\}\le p^{|S|}
+ \quad\text{for every deterministic finite set }S
+             \text{ of distinct elementary locations}.
+\end{equation}
+An error at a time in \(\mathsf I_j\) is a Pauli string whose entire support
+is contained in the union of footprints of the faulty locations
+\((\alpha,j)\in\mathcal F\). Its labels, times and multiplicities
+may otherwise be arbitrary, subject to local finiteness on bounded
+time intervals. A single faulty location may apply several nearby
+single-qubit factors at once, paying for that location once.
+Even an extensive simultaneous string is allowed when it has the
+required cover by faulty locations in its own time cell.
+
+The two correction-clock families retain their joint product law
+of independent rate-one Poisson processes. Noise may correlate
+across positions, dates, Pauli types and sectors, and with the
+correction clocks; only this correction-clock \emph{marginal} is
+fixed. The complete classical noise law must be independent of
+the hidden logical input and its reference. Adaptive choices based
+on exogenous randomness, the syndrome and previous Pauli-and-clock
+history are allowed when their joint fault set obeys
+\eqref{eq:local-stochastic}. No extra measurement of the logical
+subsystem is part of a noise history.
+
+A definite order at ties between faults and correction attempts is
+part of the history. For proofs, factor each simultaneous Pauli
+string into its nonidentity single-qubit factors in a fixed internal
+order, inserting no correction attempt between them. All these
+virtual stages have the original time and fault cover. Readout at
+a deterministic time is after all events at that time. The encoded
+state at zero precedes every allowed error. These conventions allow
+noise pulses at deterministic time-cell boundaries.
+
+We call this model \emph{Lindbladian correction, trajectory-defined
+noise}. Each correction attempt is the Poisson unravelling of
+\(\sum_p(\Diss[Z_p\Pi_p^X]+\Diss[X_p\Pi_p^Z])\) on a
+syndrome-definite branch. A general correlated history need not
+yield a Markov noise process or a semigroup for the combined
+evolution. Its ensemble is defined directly by averaging its
+Pauli trajectories on encoded inputs. The input-independence
+hypothesis is essential to that channel interpretation.
+
+\begin{lemma}[Dependence on the time grid]\label{lem:grid}
+For any law satisfying \eqref{eq:local-stochastic} on unit cells
+with parameter \(p\), a unit grid shifted by any fixed amount
+admits a covering fault set with local-stochastic parameter at
+most \(2\sqrt p\). Aligned subdivision of each unit cell into
+\(k\) equal cells, for any integer \(k\ge1\), admits parameter at
+most \(p^{1/k}\). The spatial footprints can be kept unchanged.
+Bounds exceeding one are understood as vacuous.
+\end{lemma}
+\begin{proof}
+On the shifted grid declare a location faulty if an old faulty
+cell with the same anchor intersects its interval. At time zero,
+intersect intervals with the nonnegative time axis; old cells
+before zero can be treated as empty. Each new interval intersects
+at most two old intervals, and each old interval intersects at
+most two new ones, using the same half-open endpoint convention.
+For a prescribed set of \(m\) new locations, expand at most \(2^m\)
+choices of an old covering key per location. Every such choice
+contains at least \(m/2\) distinct old keys. Its probability is
+at most \(p^{m/2}\) by \eqref{eq:local-stochastic}. A union bound
+gives \(2^mp^{m/2}=(2\sqrt p)^m\).
+The support cover is preserved because the old cell containing an
+error time intersects the new cell containing that time.
+
+For aligned refinement, declare all \(k\) children of a faulty
+old location faulty. A prescribed set of \(m\) refined locations
+has at least \(m/k\) distinct old parents, so its joint probability
+is at most \(p^{m/k}\). The same footprints cover every original
+error. These are changes of the strength parameter, not merely
+a fixed rescaling of constants.
+\end{proof}
+
+\begin{theorem}[Exponential lifetime under spacetime local stochastic
+Pauli noise]\label{thm:correlated}
+For every fixed \(g,r_0\) there exist \(p_*,c,C>0\) and an integer
+\(L_0\), independent of the admissible joint history law and of
+the logical input, such that the following holds. For every integer
+\(L\ge L_0\), every history law with the correction-clock marginal,
+bounded footprints, local finiteness and input-independence
+specified above, and strength \(p\le p_*\) in
+\eqref{eq:local-stochastic} on unit time cells, the current-syndrome
+decoder of Section~\ref{sec:decoder}, from an encoded start, obeys
+\begin{equation}\label{eq:correlated-memory}
+ \inf_{0\le t\le e^{cL}}\
+ \min_{\|\psi\|=1}
+ \langle\psi|(\readout\circ\mathsf{Store}_t\circ\enc)
+       (|\psi\rangle\langle\psi|)|\psi\rangle
+       \ge1-Ce^{-cL}.
+\end{equation}
+Here \(\mathsf{Store}_t\) is the trajectory-defined storage ensemble.
+The same bound holds for overlap with any pure input and untouched
+reference, uniformly in the designated logical qubit and fixed state
+of the other five. It allows bounded-range multi-qubit and adaptive
+faults satisfying the stated joint condition, and concerns
+stochastic Pauli noise only.
+\end{theorem}
+
+The proof occupies the remaining subsections. All estimates for
+correlated faults are unconditional at deterministic dates; a
+conditional bound after an arbitrary revealed past is not assumed.
+
+\subsection{Noise models included in the hypothesis}
+
+Independent single-qubit Pauli Poisson jumps of deterministic rates
+\(\gamma_{p,P}(t)\le\eta\) satisfy
+\eqref{eq:local-stochastic} with \(p\le1-e^{-3\eta}\le3\eta\):
+use one anchor per qubit and mark its unit cell when any noise
+jump occurs. Distinct qubit-time cells are independent by the
+product Poisson law. Thus the extension includes the constant-rate
+model of Theorem~\ref{thm:main}, and its uniformly bounded
+deterministic time-dependent version. Fresh product Pauli layers
+with each one-qubit nonidentity probability at most \(3\eta\),
+with at most \(n_l\) prescribed layers per unit interval, likewise
+give \(p\le3n_l\eta\) by a cell union bound and independence between
+distinct cells. Here \(n_l\) is fixed independently of \(L\).
+
+Independent bounded-range multi-qubit Pauli jumps are another
+special case. Assign each jump type to a fixed anchor in its
+support, with its support inside that anchor's footprint.
+Suppose the sum of deterministic intensities at each anchor is
+at most \(\lambda\). The event that any such jump occurs in a
+unit anchor cell has probability at most \(1-e^{-\lambda}\);
+these events are independent across anchors and unit intervals.
+This proves \eqref{eq:local-stochastic} with
+\(p\le1-e^{-\lambda}\). A bound \(\lambda\) on the sum of jump
+rates touching each qubit also suffices when qubits are the
+anchors, since the types assigned to a qubit are a subset of
+the types touching it. For independent constant-rate jumps added
+to the correction, the usual generator is the correction
+Lindbladian plus \(\sum_\tau\lambda_\tau\Diss[P_\tau]\).
+The Pauli-branch calculation in Section~\ref{sec:quantum} proves
+this realization directly on encoded inputs. The general
+correlated model makes no such sum-generator assertion.
+
+\subsection{Geometry and a joint coarse-bin cost}
+
+Keep \(R=2000100\). Take an integer
+\(B\ge\max\{10,r_0+10\}\), and use \(M,b,T,m_f,Q_z,U_z\) from
+\eqref{eq:block-parameters}, with \(T=1000B\) an integer. We
+require \(L\) sufficiently large for the radius-\((R+6)\) block
+neighbourhoods to lift injectively. In the dual sector use its
+fixed half-cell coordinate translation.
+
+Let \(\mathcal C(z,k)\) be failure of either of the two
+clock-only tests in Definition~\ref{def:bad}: the exclusion of
+a chronological chain of \(m_f\) attempts and completion of
+every target clearance schedule by \(T\). Its probability is
+bounded using only the correction-clock marginal by
+\begin{equation}\label{eq:clock-only}
+ \pi_B:=CB^4(96e/1000)^{1000T}
+ +(2B+1)^4(4\cdot2^{12})^{8B+2}e^{-T/2}
+ \ \longrightarrow\ 0.
+\end{equation}
+This is exactly the clock part of the proof of
+Lemma~\ref{lem:bad-prob}: ordered repeated labels use Poisson
+factorial moments, and the schedule uses distinct-vertex
+exponential waits. Correlation with faults does not alter
+this marginal estimate.
+
+Let \(\mathcal V(z,k)\) be the deterministic set of elementary
+anchor-time cells in slab \(I_k\) whose possible footprints can
+include a face incident on \(U_z\). Use the full allowed
+radius-\(r_0\) collar, rather than the realized fault support.
+Define the new bad-bin indicator
+\begin{equation}\label{eq:correlated-bad}
+ J_{\rm ls}(z,k)=
+ \mathbf1\{\mathcal C(z,k)\ \text{or}\
+                      \mathcal F\cap\mathcal V(z,k)\ne\varnothing\}.
+\end{equation}
+The elementary time cells partition the slab because \(T\) is
+integer. Put
+\begin{equation}\label{eq:envelope-size}
+ H_0=R+6,\qquad D_0=(4H_0+1)^4,\qquad
+ V_B=gT\left\lceil2B(2R+1)+2r_0+12\right\rceil^4.
+\end{equation}
+All clock inputs and spatial anchors of \(\mathcal V(z,k)\)
+are within \(H_0\) coarse blocks of \(z\), and
+\(|\mathcal V(z,k)|\le V_B\). Indeed \(U_z\) has coordinate
+width at most \(2B(2R+1)\); the footprint collar and face-vertex
+allowance add \(2r_0+12\), including the fixed dual translation.
+Since \(B\ge r_0+10\), these physical collars fit in the stated
+fixed coarse margin. A larger fixed cell-coordinate convention
+can be absorbed by increasing that margin and \(H_0\) once.
+
+If \(J_{\rm ls}(z,k)=0\), there is no noise face incident on
+\(U_z\), even at an intermediate factor of an atomic Pauli.
+The backward discrepancy argument in
+Lemma~\ref{lem:predecessor} consequently gives agreement with
+the clean cut throughout the slab. A discrepancy from its
+boundary would need a chronological chain from distance at
+least \(RB-2>m_f+5\), contradicting the clock test.
+The coordinate confinement and clearance proofs then give all
+five predecessor implications of that lemma for every even
+starting syndrome. They also give its whole-slab visit
+implication, now including the virtual intermediate states.
+A distant atomic string changes no edge in \(U_z\) when the
+test is good. At a slab boundary the starting state for the
+next slab is after all marks of the preceding slab, so
+deterministic fault-time pulses cause no exception.
+
+\begin{lemma}[Joint bad-bin bound]\label{lem:joint-bins}
+For every \(b_*\in(0,1)\), one can choose \(B\) as above and then
+\(p_*>0\), depending only on \(g,r_0,b_*\), so that for every
+admissible law at \(p\le p_*\) and every deterministic finite
+set \(\mathcal U\) of distinct coarse spacetime bins,
+\begin{equation}\label{eq:joint-bins}
+ \Prb\{J_{\rm ls}(u)=1\text{ for all }u\in\mathcal U\}
+       \le b_*^{|\mathcal U|}.
+\end{equation}
+This assertion is uniform over the dates in \(\mathcal U\).
+\end{lemma}
+\begin{proof}
+Write \(m=|\mathcal U|\), with the empty case immediate.
+Join bins with the same slab index and coarse spatial distance
+at most \(2H_0\). A greedy selection retains
+\(\ell\ge m/D_0\) nonadjacent bins. Their potential elementary
+fault sets \(\mathcal V\) are disjoint, and their clock-only
+tests use disjoint Poisson increments. The latter tests are
+independent under the product clock marginal, regardless of
+their correlations with the noise.
+
+Partition these \(\ell\) bins into a specified set
+\(\mathcal A\) requiring clock failure and a set \(\mathcal B\)
+requiring a fault-envelope hit. The clock intersection has
+probability at most \(\pi_B^{|\mathcal A|}\).
+For the other intersection choose one elementary key from each
+\(\mathcal V\). Those keys are distinct because the envelopes
+are disjoint. Equation~\eqref{eq:local-stochastic} and a union
+bound over at most \(V_B^{|\mathcal B|}\) choices give an upper
+bound \((V_Bp)^{|\mathcal B|}\).
+Cauchy--Schwarz for the two event indicators bounds their
+intersection by
+\(\pi_B^{|\mathcal A|/2}(V_Bp)^{|\mathcal B|/2}\), without
+conditioning either marginal on the other.
+
+Sum over the partitions. Every selected bin is bad only if it
+has at least one of these two causes. Therefore the probability
+that all original bins are bad is at most
+\[
+ \bigl(\sqrt{\pi_B}+\sqrt{V_Bp}\bigr)^\ell.
+\]
+Choose \(B\) so large that
+\(\sqrt{\pi_B}\le b_*^{D_0}/2\), using
+\eqref{eq:clock-only}, and then \(p_*>0\) so small that
+\(\sqrt{V_Bp_*}\le b_*^{D_0}/2\).
+The displayed expression is at most
+\(b_*^{D_0\ell}\le b_*^m\). Only the unconditional fault
+inclusion bound and the clock marginal were used.
+\end{proof}
+
+\subsection{Joint costs for localized witness families}
+
+Use \eqref{eq:comparison} and \eqref{eq:proxy} with
+\(J_{\rm ls}\) in place of \(\Bad\), writing the resulting
+fields as \(H_{\rm ls}^a\) and \(P_{\rm ls}^a\).
+All-one initialization at the deterministic date \(a\) is
+unchanged. The deterministic implications just proved give,
+from the encoded start,
+\begin{equation}\label{eq:ls-domination}
+ \begin{split}
+ Q_z\text{ occupied at }kT&\ \Longrightarrow\
+                               H_{\rm ls}^0(z,k)=0,\\
+ Q_z\text{ visited in slab }k&\ \Longrightarrow\
+                               P_{\rm ls}^0(z,k).
+ \end{split}
+\end{equation}
+The visits in the second line include every single-face
+intermediate stage of each simultaneous Pauli string.
+The induction is the one in \eqref{eq:domination}: endpoint
+occupation in a good bin has a zero predecessor in every
+\(A_s\), and any visit has at least one in \(\Delta\).
+
+\begin{proposition}[Joint localized-witness cost]\label{prop:joint-witness}
+For every \(A>0\), the parameters can be chosen so that the following
+holds in every deterministic window of depth \(w\) after a date
+\(a\), with \(2Rw<M/2\). At each site \(u\) of that window
+there are certificate events \(\mathcal E_{\rm ls}^a(u,r)\),
+with allowed radii
+\[
+ r=K_0(n+1),\qquad K_0=10(R+6),\qquad n=0,1,\ldots ,
+\]
+such that \(P_{\rm ls}^a(u)\) implies at least one event.
+For every finite predetermined family of mutually disjoint closed
+\(\rho\)-balls \(\Ball_\rho(u_j,r_j)\), with centers in that window
+and allowed radii, their joint cost satisfies
+\begin{equation}\label{eq:joint-witness}
+ \Prb\left(\bigcap_j\mathcal E_{\rm ls}^a(u_j,r_j)\right)
+      \le \exp\left(-A\sum_jr_j\right).
+\end{equation}
+The events are unions of requirements on bad sink bins localized
+inside their named balls. No independence between the events is
+asserted.
+\end{proposition}
+\begin{proof}
+A bad bin at \(u\) gives a one-sink candidate with \(n=0\).
+Otherwise \(P_{\rm ls}^a(u)\) supplies a zero predecessor
+\((y,k-1)\) within spatial distance \(R\).
+There is no zero at the all-one bottom date. At a later date
+lift that predecessor's backward cone to the integer lattice,
+copy its maps, and put constant-one maps at the bottom and
+everywhere outside the cone. The recursion is finite and
+time-directed, so its root value is the unique one from its
+bottom data and hence the maximal trajectory value.
+
+This graph satisfies all the hypotheses of the deterministic
+SST Theorem 22 checked in Section~\ref{sec:contours}: each
+nonconstant map has finite nonempty type-\(s\) predecessor
+set \(A_s\), constants have no outgoing dependencies, and
+each dependence edge decreases time by one. That theorem
+supplies a connected contour at a zero. SST Definitions 17
+and 21 and Eq.~(2.16) make its sinks distinct bad sites and
+exclude constant-one cutoff sites \cite{SST}.
+At each date the cone width is at most \(2Rw<M/2\), so
+distinct lifted sinks at that date have distinct physical
+bin indices. Distinct dates already give distinct indices.
+This argument is deterministic and has no fault-independence
+hypothesis.
+
+Let \(n\) be the number of edges per charge and \(m\) the
+number of sinks. The linear forms \eqref{eq:polar} have
+increments at least \(0,0,0,0,1\) on the five prescribed
+types, sum to zero, and have respective losses at most
+\(R,R,R,R,4R\) on arbitrary offsets in \(\Delta\).
+Consequently the flux calculation
+\eqref{eq:edges-sinks}, using SST Lemmas 38 and 40, gives
+\(m\ge1+n/\alpha\), where \(\alpha=1+8R\).
+The enumeration \eqref{eq:contour-count} uses SST
+arXiv:2202.10999v3, proof Eq.~(5.28); its weaker Lemma 39
+statement Eq.~(5.15) would also suffice.
+After the bounded predecessor choice and the direct case,
+the number of candidates at \(u\) is at most \(C_0C_1^n\),
+with constants depending only on \(R\).
+
+Define \(\mathcal E_{\rm ls}^a(u,K_0(n+1))\) by taking the
+union over those deterministic cone candidates and requiring
+only that each named sink is bad. A connected contour has
+\(5n\) edges. Hence every sink is within \(5Rn+R\) spatial
+units and \(5n+1\) dates of \(u\), and lies in its named
+ball. Even the local clock/fault inputs of its bad test
+fit after adding the \(H_0\) collar. Empty events can be
+used at other radii. The contour implication gives the
+claimed cover.
+
+For the prescribed disjoint balls, expand the intersection
+of the candidate unions into tuples of deterministic
+contours. Within one candidate the sinks are distinct by
+the embedding and lift argument. Across candidates in a
+tuple they are distinct because the balls are disjoint
+as sets on the actual torus times time. Apply
+Lemma~\ref{lem:joint-bins} once to the \emph{union} of all
+sink bins in that tuple. With \(n_j=r_j/K_0-1\), summing
+over the tuples gives
+\begin{equation}\label{eq:tuple-charge}
+ \Prb\left(\bigcap_j\mathcal E_{\rm ls}^a(u_j,r_j)\right)
+ \le\prod_j\left[C_0C_1^{n_j}
+                       b_*^{\,1+n_j/\alpha}\right].
+\end{equation}
+The displayed product is a counting bound: the number of
+choices multiplies and the number of distinct sinks adds.
+It does not factor the underlying noise law.
+
+Choose \(b_*>0\) sufficiently small so that
+\(C_0C_1^n b_*^{1+n/\alpha}\le
+e^{-AK_0(n+1)}\) for every \(n\ge0\), by bounding the constant
+term and the coefficient of \(n\) in its logarithm.
+Then choose \(B,p_*\) by Lemma~\ref{lem:joint-bins}.
+This proves \eqref{eq:joint-witness}.
+Balls of radius above \(M/2\) may wrap spatially around
+the torus. The sink sets are physical indices without
+repeated copies, the quotient volume bound remains valid,
+and only disjoint actual balls are used. No independence
+claim is needed for wrapping or nonwrapping balls.
+\end{proof}
+
+\begin{proposition}[Centered crossing under correlated faults]
+\label{prop:ls-path}
+For sufficiently large fixed \(A\), and the resulting choices of
+parameters, there are \(C,\kappa>0\) such that for every
+deterministic window above, every specified anchor \(u\) in it,
+and every real \(s\ge0\),
+\begin{equation}\label{eq:ls-path}
+ \Prb\left\{\begin{array}{l}
+ \text{a finite path in }P_{\rm ls}^a
+       \text{ starts at }u,\text{ stays in the window,}\\
+ \text{and reaches }\rho\text{-distance at least }s
+ \end{array}\right\}\le Ce^{-\kappa s}.
+\end{equation}
+Path steps have \(\rho\)-distance at most \(R\), and the
+constants are uniform over dates, \(L\), and admissible laws.
+\end{proposition}
+\begin{proof}
+For a realizing finite path, assign an occurring certificate
+ball to each distinct site. Greedily select disjoint balls
+in decreasing radius. A discarded ball meets a selected
+one with at least its radius, so the selected triple
+enlargements cover the path. The covers of its endpoints
+are connected by a simple chain of selected centers whose
+successive distances are at most \(3r+3r'+R\).
+If \(v\) is the sum of radii in this chain and \(j\) its
+length, endpoint displacements and the triangle inequality
+give \(s\le6v+R(j-1)\le7v\), since every radius exceeds \(R\).
+This is a product-metric argument, including on the torus.
+
+For fixed ordered radii, the initial center has at most
+\((6r_1+1)^5\) choices around the specified anchor, and
+subsequent centers have at most
+\((6r_i+6r_{i+1}+2R+1)^5\) choices. As in the explicit
+entropy calculation in Proposition~\ref{prop:path}, their
+product is at most \(e^{60v}\).
+There are at most \(2^v\) ordered compositions of \(v\).
+For each deterministic chain with disjoint original balls,
+use the joint estimate \eqref{eq:joint-witness} to pay
+\(e^{-Av}\) for all its certificates at once.
+Thus, taking \(A>100\),
+\[
+ \Prb(\text{crossing})\le
+ \sum_{v\ge\max\{1,\lceil s/7\rceil\}}
+        e^{-(A-60-\log2)v}
+ \le Ce^{-\kappa s}.
+\]
+Adaptive selection after observing the path causes no
+probability factorization: the union bound enumerates
+deterministic chains before applying their joint cost.
+\end{proof}
+
+\subsection{Unconditional overlapping windows}
+
+\begin{proposition}[Correlated cumulative history bound]
+\label{prop:ls-history}
+For each named CSS sector there exist \(C_0,\beta>0\) and
+\(L_0\), uniform over the admissible history laws at
+\(p\le p_*\), such that from an encoded start, for every
+\(L\ge L_0\) and deterministic \(t\ge0\),
+\begin{equation}\label{eq:ls-history}
+ \Prb\left\{\begin{array}{l}
+ \text{a sector syndrome component has diameter }\ge L/100\\
+ \text{by time }t,\text{ including virtual single-face stages}
+ \end{array}\right\}
+ \le\min\{1,C_0(1+t)e^{-\beta L}\}.
+\end{equation}
+Diameter is ambient torus sup diameter.
+\end{proposition}
+\begin{proof}
+Set \(h=\lfloor M/[100(R+6)]\rfloor\) and \(a_j=jh\).
+For all sufficiently large \(M\), \(h\ge1\) and a
+two-epoch window of depth \(2h\) satisfies \(4Rh<M/2\).
+On the original joint marks define
+\(H_j=H_{\rm ls}^{a_j}\), all ones at its own deterministic
+start. Define \(G_j\) as equality of \(H_j,H_{j+1}\)
+everywhere at \(a_{j+2}\), and \(V_j\) as absence of a
+spatially connected set of diameter at least \(M/200\)
+in \(P_{\rm ls}^{a_j}(\cdot,k)\) at any of the \(2h\)
+window dates.
+
+During the overlap \(H_j\le H_{j+1}\), by all-one
+initialization of the latter and monotonicity of each
+common update. A disagreeing endpoint has a disagreeing
+predecessor unless its map is constant, which cannot
+transmit disagreement. Trace one such predecessor per
+date down to \(a_{j+1}\). The resulting path consists
+of zeros of the older comparison, hence sites in
+\(P_{\rm ls}^{a_j}\); it has temporal span \(h\) and
+steps at most \(R\). Proposition~\ref{prop:ls-path}
+and a union over final sites give
+\[
+ \Prb(G_j^c)\le CM^4e^{-\kappa h}.
+\]
+If \(V_j\) fails, a spatial path in one of those dates
+reaches distance \(M/200\) from some initial block.
+Summing the same path bound over dates and anchors gives
+\[
+ \Prb(V_j^c)\le 2ChM^4e^{-\kappa M/200}.
+\]
+These are unconditional bounds at each deterministic
+\(j\). The joint inclusion bound applies to any specified
+dates, so no fresh conditional noise law at \(a_j\) is
+needed.
+
+On \(\bigcap_{0\le j<n}(G_j\cap V_j)\), the same
+deterministic comparison iteration as in
+Lemma~\ref{lem:iteration} applies. Explicitly,
+\(H_{\rm ls}^0=H_{i-1}\) at \(a_i\) for \(i=1\) by
+identity. Equality propagates through epoch \(i\)
+under common maps. Then \(G_{i-1}\) equates
+\(H_{i-1}\) with \(H_i\) at \(a_{i+1}\), proving
+the assertion inductively. The visit proxy uses
+the preceding boundary bits and the current bad bin.
+Thus its values agree as well on every needed slab,
+including the earliest predecessor date of each epoch.
+Use \(V_0\) in epoch zero and \(V_{i-1}\) in epoch \(i\ge1\),
+together with \eqref{eq:ls-domination}.
+
+A physical or virtual component of diameter at least
+\(L/100\) maps to a connected set of visited blocks
+of diameter at least \(M/100-1\ge M/200\), by the
+physical/coarse inequality \(b(d+1)\) proved in
+Lemma~\ref{lem:iteration}. This contradicts the
+applicable \(V_j\). The visit implication includes
+each intermediate factor at its original time and
+the final mark at a slab boundary, with the next slab
+initialized after all those marks.
+
+For \(t>0\), take \(n=\lceil t/(hT)\rceil\).
+The union bound over these failures is at most
+\[
+ CnM^4\left(e^{-\kappa h}
+                    +2h e^{-\kappa M/200}\right).
+\]
+Some window tests extend beyond \(t\), which only
+enlarges the bounding event. With \(B,T,R\) fixed,
+\(M\) and \(h\) grow linearly in \(L\);
+\(n\le1+t\). Absorb the remaining polynomial factors
+in a smaller positive exponential rate, as in the
+proof of Proposition~\ref{prop:history}, to obtain
+\eqref{eq:ls-history}. At zero the syndrome is empty.
+There is no conditioning on earlier successful
+overlaps and no independence across windows.
+\end{proof}
+
+\subsection{Pauli branches and current-syndrome recovery}
+
+\begin{proof}[Proof of Theorem~\ref{thm:correlated}]
+By local finiteness, all events on the finite torus can
+be ordered up to any finite deterministic horizon.
+Starting in the code space, induction over them keeps
+each branch a Pauli translate of its original encoded
+input, with the reference untouched. Every stabilizer
+predicate is a definite scalar on that branch and
+extracts no logical information. A noise string
+multiplies the Pauli frame regardless of its classical
+correlations or adaptation. By the explicit
+input-independence hypothesis, branch probabilities
+do not depend on the encoded logical amplitudes.
+Averaging these branches therefore defines the
+storage channel on encoded inputs. This argument
+does not assume an additive Lindblad generator
+for the correlated noise or apply DOA's
+Theorem 1 outside its Lindblad class.
+
+Use exactly the decoder \(D\) of
+Section~\ref{sec:decoder}. Lemma~\ref{lem:homology}
+preserves the filled homology class across a single
+face flip if every syndrome component on both
+sides is small. For an atomic Pauli string,
+apply the lemma successively to its single-face
+factors in their prescribed internal order.
+There is no intervening correction; each partial
+product has the original time and fault cover.
+Proposition~\ref{prop:ls-history} controls all these
+intermediate syndromes, as well as the physical
+ones. It would not suffice to inspect only the
+two physical endpoints of an atomic error: a
+whole logical membrane can have empty syndrome
+at both endpoints. The specified order at a
+clock/noise tie fixes the tested syndrome, and
+the geometric implication covers that order.
+
+Apply \eqref{eq:ls-history} to both marginal
+sectors and use a union bound. With probability
+at least \(1-2C_0(1+t)e^{-\beta L}\), all virtual
+and physical stages through \(t\) have only small
+components in both sectors. Their initial filled
+classes are zero and remain zero across every
+factor. After applying the two decoder fillings,
+the residual Pauli is therefore a stabilizer up
+to phase. This branch restores all six logical
+qubits and any reference exactly.
+
+The success event and its probability bound are
+uniform over logical inputs and allowed Pauli
+labels. For any pure \(|\Psi\rangle_{QR}\), the
+target overlap is linear in the trajectory
+mixture and nonnegative on every remaining
+branch. Consequently
+\[
+ \langle\Psi|[(\readout\circ\mathsf{Store}_t\circ\enc)
+              \otimes\id_R](|\Psi\rangle\langle\Psi|)
+                 |\Psi\rangle
+ \ge1-2C_0(1+t)e^{-\beta L}.
+\]
+Take \(c=\beta/3\) and enlarge \(C\), exactly as
+in the proof of Theorem~\ref{thm:main}, to obtain
+\eqref{eq:correlated-memory} and its reference
+version throughout \(0\le t\le e^{cL}\).
+The decoder reads only the physical syndrome
+at the requested time. Its virtual factorization
+and auxiliary comparisons are proof devices,
+not a history supplied to recovery.
+
+The constants can be chosen without circularity:
+fix the footprint geometry and \(A>100\), choose
+\(b_*\) for the joint witness cost, enlarge \(B\)
+for the clock-only term, then decrease \(p_*\)
+for the fixed envelope size \(V_B\). Choose
+\(L_0\) only after those choices. All are
+independent of the admissible law and input.
+\end{proof}

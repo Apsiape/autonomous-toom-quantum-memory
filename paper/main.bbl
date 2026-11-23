@@ -1,0 +1,127 @@
+\begin{thebibliography}{16}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ahn(2004)]{Ahn}
+Charlene~Sonja Ahn.
+\newblock \emph{Extending Quantum Error Correction: New Continuous Measurement
+  Protocols and Improved Fault-Tolerant Overhead}.
+\newblock PhD thesis, California Institute of Technology, 2004.
+\newblock URL \url{https://thesis.library.caltech.edu/1873/1/CSAthesisv4.pdf}.
+
+\bibitem[Alicki et~al.(2010)Alicki, Horodecki, Horodecki, and
+  Horodecki]{AHHH2010}
+Robert Alicki, Michal Horodecki, Pawel Horodecki, and Ryszard Horodecki.
+\newblock On thermal stability of topological qubit in {Kitaev}'s {4D} model.
+\newblock \emph{Open Systems \& Information Dynamics}, 17\penalty0
+  (1):\penalty0 1--20, 2010.
+\newblock \doi{10.1142/S1230161210000023}.
+\newblock URL \url{https://arxiv.org/abs/0811.0033}.
+
+\bibitem[Aliferis et~al.(2006)Aliferis, Gottesman, and Preskill]{AGP}
+Panos Aliferis, Daniel Gottesman, and John Preskill.
+\newblock Quantum accuracy threshold for concatenated distance-3 codes.
+\newblock \emph{Quantum Information \& Computation}, 6\penalty0 (2):\penalty0
+  97--165, 2006.
+\newblock URL \url{https://arxiv.org/abs/quant-ph/0504218}.
+
+\bibitem[Bennett and Grinstein(1985)]{BennettGrinstein}
+Charles~H. Bennett and G.~Grinstein.
+\newblock Role of irreversibility in stabilizing complex and nonergodic
+  behavior in locally interacting discrete systems.
+\newblock \emph{Physical Review Letters}, 55:\penalty0 657--660, 1985.
+\newblock \doi{10.1103/PhysRevLett.55.657}.
+\newblock URL \url{https://doi.org/10.1103/PhysRevLett.55.657}.
+
+\bibitem[Bramson and Gray(1991)]{BramsonGray}
+Maury Bramson and Lawrence Gray.
+\newblock A useful renormalization argument.
+\newblock In Rick Durrett and Harry Kesten, editors, \emph{Random Walks,
+  Brownian Motion, and Interacting Particle Systems}, volume~28 of
+  \emph{Progress in Probability}, pages 113--152. Birkh{\"a}user, 1991.
+\newblock \doi{10.1007/978-1-4612-0459-6_6}.
+\newblock URL \url{https://doi.org/10.1007/978-1-4612-0459-6_6}.
+
+\bibitem[Chakraborty and Lee(2026)]{ChakrabortyLee}
+Shashwat Chakraborty and Jong~Yeon Lee.
+\newblock Renormalization for robust memory without synchronization.
+\newblock arXiv:2610.40651v1, 2026.
+\newblock URL \url{https://arxiv.org/abs/2610.40651v1}.
+
+\bibitem[Dennis et~al.(2002)Dennis, Kitaev, Landahl, and Preskill]{DKLP}
+Eric Dennis, Alexei Kitaev, Andrew Landahl, and John Preskill.
+\newblock Topological quantum memory.
+\newblock \emph{Journal of Mathematical Physics}, 43:\penalty0 4452--4505,
+  2002.
+\newblock \doi{10.1063/1.1499754}.
+\newblock URL \url{https://arxiv.org/abs/quant-ph/0110143}.
+
+\bibitem[Drechsler et~al.(2026)Drechsler, Oreg, and Aharonov]{DOA}
+Nadav Drechsler, Yuval Oreg, and Dorit Aharonov.
+\newblock Autonomous quantum memories from classical stochastic processes.
+\newblock arXiv:2610.05589v1, 2026.
+\newblock URL \url{https://arxiv.org/abs/2610.05589v1}.
+
+\bibitem[D{\"u}nnweber et~al.(2026)D{\"u}nnweber, Styliaris, and Trivedi]{DST}
+Gesa D{\"u}nnweber, Georgios Styliaris, and Rahul Trivedi.
+\newblock Quantum memory and autonomous computation in two dimensions.
+\newblock arXiv:2601.20818v3, 2026.
+\newblock URL \url{https://arxiv.org/abs/2601.20818v3}.
+
+\bibitem[Gray(1999)]{Gray}
+Lawrence~F. Gray.
+\newblock {Toom}'s stability theorem in continuous time.
+\newblock In Maury Bramson and Rick Durrett, editors, \emph{Perplexing Problems
+  in Probability}, volume~44 of \emph{Progress in Probability}, pages 331--353.
+  Birkh{\"a}user, 1999.
+\newblock \doi{10.1007/978-1-4612-2168-5_18}.
+\newblock URL \url{https://doi.org/10.1007/978-1-4612-2168-5_18}.
+
+\bibitem[Kubica and Preskill(2019)]{KubicaPreskill}
+Aleksander Kubica and John Preskill.
+\newblock Cellular-automaton decoders with provable thresholds for topological
+  codes.
+\newblock \emph{Physical Review Letters}, 123:\penalty0 020501, 2019.
+\newblock \doi{10.1103/PhysRevLett.123.020501}.
+\newblock URL \url{https://arxiv.org/abs/1809.10145}.
+
+\bibitem[Kumar and Weimer(2026)]{KumarWeimer}
+Sanjeev Kumar and Hendrik Weimer.
+\newblock Self-correction phase transition in the dissipative toric code.
+\newblock arXiv:2602.19288v1, 2026.
+\newblock URL \url{https://arxiv.org/abs/2602.19288v1}.
+
+\bibitem[Pastawski et~al.(2011)Pastawski, Clemente, and Cirac]{PCC}
+Fernando Pastawski, Lucas Clemente, and Juan~Ignacio Cirac.
+\newblock Quantum memories based on engineered dissipation.
+\newblock \emph{Physical Review A}, 83:\penalty0 012304, 2011.
+\newblock \doi{10.1103/PhysRevA.83.012304}.
+\newblock URL \url{https://arxiv.org/abs/1010.2901}.
+\newblock arXiv:1010.2901.
+
+\bibitem[Ponarovsky(2026)]{Ponarovsky}
+David Ponarovsky.
+\newblock Local quantum fault tolerance without expansion.
+\newblock arXiv:2610.38847v2, 2026.
+\newblock URL \url{https://arxiv.org/abs/2610.38847v2}.
+
+\bibitem[Swart et~al.(2026)Swart, Szab{\'o}, and Toninelli]{SST}
+Jan~M. Swart, R{\'e}ka Szab{\'o}, and Cristina Toninelli.
+\newblock Peierls bounds from {Toom} contours.
+\newblock arXiv:2202.10999v3, 2026.
+\newblock URL \url{https://arxiv.org/abs/2202.10999v3}.
+\newblock Version used for Eqs.\ (5.15) and (5.28). Journal version: Journal of
+  Theoretical Probability 39, article 45 (2026),
+  doi:10.1007/s10959-026-01508-2.
+
+\bibitem[Toom(1980)]{Toom}
+A.~L. Toom.
+\newblock Stable and attractive trajectories in multicomponent systems.
+\newblock In R.~L. Dobrushin and Ya.~G. Sinai, editors, \emph{Multicomponent
+  Random Systems}, volume~6 of \emph{Advances in Probability and Related
+  Topics}, pages 549--575. Marcel Dekker, New York, 1980.
+
+\end{thebibliography}

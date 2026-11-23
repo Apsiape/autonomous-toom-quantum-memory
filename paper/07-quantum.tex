@@ -1,0 +1,124 @@
+\section{Quantum evolution and worst-case fidelity}\label{sec:quantum}
+
+We verify directly that the two sector histories analyze
+\eqref{eq:generator}. This also checks the continuous-time CSS
+hypotheses in the forward memory implication of
+Drechsler--Oreg--Aharonov, Theorem 1 (Section 1.5.1; formal version Section 3.1) \cite{DOA}, without requiring that
+implication as a probabilistic input.
+
+\begin{lemma}[Pauli-trajectory realization]\label{lem:trajectories}
+For every finite \(L\), every encoded density operator \(\rho\),
+possibly entangled with an arbitrary reference, and every \(t\ge0\),
+the state \((e^{t\Lind_L}\otimes\id)(\rho)\) is the mixture over the
+independent marked histories specified in
+Section~\ref{sec:model}, applying their cumulative physical Paulis
+to \(\rho\). Each sector has the single-face classical correction
+rule of Section~\ref{sec:local} and noise rate at most \(2\eta\).
+The probabilities of these histories are independent of \(\rho\).
+\end{lemma}
+\begin{proof}
+On a Pauli translate \(U\rho U^\dagger\) of any encoded state, every
+stabilizer has a definite sign determined by \(U\), regardless of
+the logical state or the reference. Thus any tested projector
+\(\Pi\) has a definite scalar value \(b\in\{0,1\}\) on this whole
+branch. For \(J=P\Pi\), \(J^\dagger J=\Pi\), and
+\[
+ \Diss[P\Pi](U\rho U^\dagger)=
+ \begin{cases}
+ 0,&b=0,\\
+ P U\rho U^\dagger P-U\rho U^\dagger,&b=1.
+ \end{cases}
+\]
+A rate-one attempt clock gives exactly this infinitesimal transition
+law. A noise clock with rate \(\gamma_{p,P}\) gives
+\(\gamma_{p,P}(P_p\rho P_p-\rho)\).
+Summing these transition laws over the finitely many clocks shows
+that the marked-history mixture solves the Lindblad equation with
+the prescribed initial state. Finite-dimensional uniqueness of
+this linear differential equation identifies it with the quantum
+evolution. This uniqueness follows, for example, by the convergent
+matrix exponential of the finite-dimensional superoperator.
+
+Products of physical Paulis stay physical Paulis up to a phase.
+Their syndrome signs depend only on the error chains, so neither
+the correction rates nor the history probabilities depend on the
+logical state. A primal correction adds its plaquette to the
+primal error chain, and a dual correction adds its dual plaquette
+to the dual error chain. The noise marginals are the sums of the
+\(Z,Y\) and \(X,Y\) rates respectively. Shared \(Y\) marks can
+correlate the sectors, but do not alter either marginal law.
+\end{proof}
+
+The stipulated generator is a correction Lindbladian in
+\cite[Definition 2.24]{DOA}: its Hamiltonian vanishes, its \(Z\)
+jumps use only \(X\)-check functions, and its \(X\) jumps use only
+\(Z\)-check functions. Its noise has Definition 2.25's independent
+Pauli form. The initial encoding has all check signs positive,
+and \(D\) is a compatible decoder with \(D(0)=0\) as in their
+Definition 2.5. These checks explain the applicability of their
+forward Theorem 1 (Section 1.5.1; formal version Section 3.1). The direct realization just proved also handles
+the stronger reference statement used here.
+
+To implement \(\readout\), measure the commuting checks, apply
+\(Z^{D_{\rm primal}(s_X)}\) and
+\(X^{D_{\rm dual}(s_Z)}\), invert the code encoding on the corrected
+code space, and output the designated qubit. The order of the two
+Pauli corrections changes only a phase. Each correction removes
+its associated syndrome and commutes with the other family of
+checks, so their combination returns every attainable branch to
+the code space.
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Apply Corollary~\ref{cor:retention} to the two marginal sectors in
+Lemma~\ref{lem:trajectories}. A union bound, requiring no independence
+between sectors, gives an event \(\mathcal S_t\) with
+\[
+ \Prb(\mathcal S_t)\ge1-2C_0(1+t)e^{-\beta L}
+\]
+on which both filled classes remain zero through \(t\).
+On such a history the primal and dual residual error chains are
+boundaries of 3-chains. Their Paulis are products of \(Z\) and \(X\)
+stabilizers, respectively. The total residual acts as the identity
+on every code vector, up to a physically irrelevant phase.
+It therefore restores all six logical qubits exactly, including
+their joint state with a reference.
+
+Since the history probabilities do not depend on the input,
+the effective channel is a convex mixture whose contribution from
+\(\mathcal S_t\) is exactly
+\(\Prb(\mathcal S_t)\id\). For any pure \(|\Psi\rangle_{QR}\) the
+target overlap on the other branches is nonnegative. Hence
+\begin{equation}\label{eq:full-fidelity}
+ \langle\Psi|(\logical\otimes\id_R)
+  (|\Psi\rangle\langle\Psi|)|\Psi\rangle
+ \ge1-2C_0(1+t)e^{-\beta L}.
+\end{equation}
+This conclusion is uniform in the fixed unused logical state
+\(\sigma\); on success that state too is restored before it is
+discarded.
+
+Choose \(c=\beta/3\). For \(0\le t\le e^{cL}\),
+\[
+ 2C_0(1+t)e^{-\beta L}
+ \le4C_0e^{-(\beta-c)L}
+ \le4C_0e^{-cL}.
+\]
+Take \(C=4C_0\), enlarging it if needed for a common \(L_0\).
+With a trivial reference, minimizing \eqref{eq:full-fidelity} over
+all pure inputs yields \eqref{eq:main}. With a general reference
+it gives the asserted stronger inequality. All geometric and
+probabilistic constants were fixed independently of \(L\), the
+rate values within the bound, and the input. The fillings use only
+the syndrome and fixed cell orderings. This proves every claimed
+uniformity.
+\end{proof}
+
+For a Bell input, the same argument gives entanglement fidelity
+at least \(1-Ce^{-cL}\). The maximum overlap of a pure two-qubit
+product with a Bell vector is \(1/2\), by the Cauchy--Schwarz
+inequality applied to its two Schmidt terms. Convexity extends
+this upper bound to separable states. Thus for sufficiently
+large \(L\) the guaranteed Bell fidelity is above that classical
+benchmark throughout the interval. The worst-case statement in
+Theorem~\ref{thm:main} does not rely on choosing this particular
+input.

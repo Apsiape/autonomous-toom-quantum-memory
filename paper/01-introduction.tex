@@ -1,0 +1,200 @@
+\section{Introduction}\label{sec:intro}
+
+A local correction mechanism can be time independent even when the
+events by which it acts are random. The question is whether
+uncoordinated local attempts can suppress the syndrome structures that
+eventually produce a logical error. In four dimensions the toric code
+offers a particularly concrete test: syndrome edges form even-degree
+loops, and a conditional plaquette flip can move their upper corners
+towards smaller coordinate height.
+
+Pastawski, Clemente and Cirac proposed a dissipative realization of this
+four-dimensional Toom mechanism and supported its memory properties
+numerically \cite{PCC}. Drechsler, Oreg and Aharonov proved synchronous
+and Floquet memory theorems and asked whether a time-independent
+Lindbladian, including that proposal, has a nonzero memory threshold
+\cite[Sections 1.5.3 and 1.8]{DOA}. Their own physical noise model is
+independent single-qubit Pauli noise: Definition 2.25 gives the sum of
+one-qubit jump generators, Definition 2.37 the product Pauli layer, and
+Definition 7.7 the corresponding Floquet noise assumption
+\cite{DOA}. Theorem~\ref{thm:main} therefore answers their
+time-independent question in their model.
+
+Theorem~\ref{thm:correlated} goes beyond that model: the exponential
+lifetime and fidelity bound also hold under spacetime local stochastic
+Pauli noise on unit time cells, allowing bounded-range multi-qubit and
+adaptive faults. The noise law must be independent of the hidden
+logical input and its reference. For this extension the physical
+description is \emph{Lindbladian correction, trajectory-defined noise}.
+Our strongest result, Theorem~\ref{thm:general}, proves exponential
+storage under any sufficiently weak \emph{additive} finite-range
+Markovian Lindblad noise generator, including coherent Hamiltonian
+terms and non-unital noise such as amplitude damping.
+It controls all six logical qubits and an untouched reference.
+The coherent threshold is on the amplitude \(|h|\), not \(h^2\).
+Drechsler, Oreg and Aharonov reserve \emph{fully autonomous} memory for
+protection against general local noise by a time-independent, local,
+translationally invariant Lindbladian
+\cite[Section 1.5.1, Table 1]{DOA}.
+Theorem~\ref{thm:general} meets that definition for additive finite-range
+Markovian noise, with translation invariance for homogeneous noise;
+its bound also permits spatially inhomogeneous noise.
+
+In Section 1.4.1 they describe the setting outside thermal equilibrium
+as having \textquotedblleft no known rigorous proof of a fully
+autonomous quantum memory\textquotedblright\ \cite{DOA}.
+The thermal precedent is the four-dimensional toric code under
+Davies dynamics studied by Alicki, M.~Horodecki, P.~Horodecki and
+R.~Horodecki \cite{AHHH2010}.
+Here the added noise generator is required to generate CPTP evolution
+and the correction remains exact. Perturbations of the correction's
+own jump operators, such as an imperfect syndrome projector, remain
+outside the result, as does a general non-Markovian bath.
+The former belongs to the broader superoperator-stability question
+in Drechsler--Oreg--Aharonov Section 1.8 \cite{DOA}.
+
+The independent-noise conclusion has two related forms. On the finite four-torus a
+single, continuously evolving device retains its encoded information
+for an exponential time, with an exponentially small worst-case
+fidelity error. On the infinite lattice, the syndrome process started
+empty has exponential component-diameter tails at any specified
+location, uniformly over all physical times. The infinite statement
+concerns syndrome geometry; it does not assign a logical qubit to the
+infinite lattice.
+
+\subsection{Relation to existing work}
+
+The directed geometry and the contour method originate with Toom
+\cite{Toom}. Bennett and Grinstein studied the stabilizing role of
+irreversibility in local stochastic dynamics \cite{BennettGrinstein}.
+Bramson and Gray developed renormalization comparisons with growth and
+erosion processes \cite{BramsonGray}; Gray proved continuous-time
+stability results for attractive spin systems
+\cite{Gray}. These works establish a substantial classical
+background for asynchronous stability.
+
+The present syndrome process is not an attractive spin system under
+edgewise inclusion. An enabled plaquette operation removes the two
+tested edges and toggles the opposite two; an opposite edge can
+disappear if it was already marked. Thus inclusion of edge sets does
+not give the order needed for a direct attractive-process comparison.
+We instead construct an auxiliary monotone process on spatial blocks
+and verify its implications for every admissible starting syndrome in
+a slab.
+
+Chakraborty and Lee use the same kind of slab comparison to study
+finite-range monotone continuous-time dynamics
+\cite[Theorem 1 and Appendix B]{ChakrabortyLee}. The local comparison here
+is established directly from the parity of syndrome vertices and the
+waiting times of the physical Poisson clocks. Swart, Szab\'o and
+Toninelli provide the deterministic contour construction and its
+enumeration \cite[Theorem 22 and Lemmas 38--40]{SST}. We apply that
+construction to the block process, with a separate calculation for the
+finite-range dependence of the bad-bin field.
+
+For quantum codes, Dennis, Kitaev, Landahl and Preskill developed the
+homological account of topological quantum memory and discussed local
+correction in four dimensions \cite{DKLP}. From Ahn's thesis we use only
+the five linear forms in Eq.~(7.17) \cite{Ahn}; their required
+inequalities are checked directly in Section~\ref{sec:contours}.
+No dynamical or threshold estimate from that thesis is an input to
+this proof. Kubica and Preskill proved threshold results for
+synchronous cellular-automaton sweep decoders \cite{KubicaPreskill}.
+Ponarovsky treats local stochastic Pauli noise with synchronous sweeps
+and noiseless bounded-depth classical processing
+\cite[Sections 1.1--1.3, Theorems 6.3 and 7.3]{Ponarovsky}.
+That paper also notes gaps in Ahn's four-dimensional Toom proof and
+points to a companion discussion \cite[Section 1.1]{Ponarovsky}.
+Its timing and processing resources differ from independent Poisson
+correction attempts.
+
+Kumar and Weimer study a two-dimensional dissipative toric code with
+a dynamical classical field \cite{KumarWeimer}. D\"unnweber, Styliaris
+and Trivedi give a two-dimensional autonomous cellular-automaton
+construction and outline a continuous-time realization \cite{DST}.
+These are related constructions, not inputs to the estimates below.
+Joint charging of fault tuples is standard in local-stochastic
+fault tolerance; the correlated extension combines it with the
+asynchronous clearance, contour and overlap arguments.
+
+We credit the quantum dissipative proposal and its numerical evidence
+to Pastawski, Clemente and Cirac \cite{PCC}, and the synchronous and
+Floquet theorems and the explicit time-independent question to
+Drechsler, Oreg and Aharonov \cite{DOA}. The method used here is standard
+in kind: a block comparison, Toom contours, a Peierls estimate and a
+homological decoding argument. Its application to the non-monotone
+four-dimensional toric-code syndrome dynamics appears new.
+
+\subsection{What the probability estimate controls}
+
+We prove, in either CSS sector, the history bound
+\begin{equation}\label{eq:intro-history}
+ \begin{aligned}
+ &\Prb\{\text{a syndrome component of diameter }\ge L/100
+             \text{ occurs by time }t\}\\
+ &\hspace{3em}\le C_0(1+t)e^{-\beta L}
+ \qquad(t\ge0).
+ \end{aligned}
+\end{equation}
+The constants and the lower bound on \(L\) are uniform over all allowed
+spatial choices of the noise rates. The inequality is understood with
+its right side replaced by its minimum with one. It is a statement
+about all actual jumps up to a deterministic horizon, rather than only
+the syndrome at regularly spaced observations.
+
+A fixed filling of each small syndrome component defines a decoded
+homology class. A single plaquette flip cannot change this class when
+the components immediately before and after the flip are small.
+Equation~\eqref{eq:intro-history} therefore controls the entire decoded
+history. Applying this argument in both sectors gives an event on
+which every code state, including a state entangled with a reference,
+is recovered exactly. The worst-case fidelity bound follows from the
+probability of that event.
+
+\subsection{Why overlapping comparisons are needed}
+
+A short backward dependency cone on a large torus lifts injectively,
+date by date, to the integer lattice. A contour in such a cone has
+distinct physical sinks, so each sink can be charged to a rare
+collection of Poisson increments. Over a much longer cone, distinct
+lifted sinks might be copies of the same physical bin. Multiplying
+their costs would then be invalid.
+
+We avoid this repetition by estimating two comparisons initialized one
+epoch apart. They use the same maps during their overlap. If they
+still disagree at its end, a path of zeros of the older comparison
+crosses an entire epoch in time. Localized spacetime witnesses make
+such a path exponentially unlikely while the older comparison is
+still young enough to lift. Agreement can then be propagated from one
+epoch to the next. The comparisons are functions of the marks; they do
+not restart the physical memory.
+
+There is a genuine reason to retain the clean-initialization
+hypothesis. Some wrapping, even-degree syndromes are frozen under
+every noiseless correction attempt. Consequently the argument does
+not assert uniform contraction from arbitrary torus syndromes.
+Section~\ref{sec:discussion} gives an explicit example.
+
+\subsection{Organization and conventions}
+
+Section~\ref{sec:model} specifies the generator, fidelity convention and
+statements. Section~\ref{sec:local} proves the asynchronous clearance
+and the uniform local mark test. Section~\ref{sec:contours} constructs
+localized certificates and proves the centered path estimate.
+Section~\ref{sec:windows} establishes
+\eqref{eq:intro-history} by overlapping windows.
+Sections~\ref{sec:decoder} and \ref{sec:quantum} construct the readout and
+complete the quantum theorem. Section~\ref{sec:infinite} gives the
+infinite-volume construction and its uniform estimates.
+Section~\ref{sec:correlated} states and proves the correlated-noise
+extension, with its time-grid dependence and joint witness costs.
+Section~\ref{sec:general} proves the strongest, additive Markovian-noise
+theorem by retaining coherent cross terms, resumming optional faults,
+and counting dense unions of witnesses.
+
+Chains and boundaries have coefficients in \(\F\). A syndrome component
+means a component of marked edges joined at common endpoints.
+Diameters are ambient sup-metric diameters of their vertex sets, using
+periodic coordinate distances on a torus. Constants denoted by \(C\)
+may be enlarged from one inequality to the next. Every fixed block
+parameter is chosen independently of \(L\).

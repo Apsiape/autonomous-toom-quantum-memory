@@ -1,0 +1,197 @@
+\section{Model and statements}\label{sec:model}
+
+\subsection{Cubical code and its two sectors}
+
+Let \(K_L\) be the cubical cellulation of
+\((\mathbb R/L\Z)^4\), with vertices \(\Z_L^4\) and unit coordinate
+cells. Write \(C_j(K_L;\F)\) for its cellular \(j\)-chains and
+\(\partial_j\) for the boundary. There is a physical qubit on each
+plaquette, so the number of qubits is \(6L^4\). For each edge \(e\) and
+cube \(c\), set
+\begin{equation}
+ A_e=\prod_{p\supset e}X_p,\qquad
+ B_c=\prod_{p\subset\partial c}Z_p.
+\end{equation}
+These checks commute: an edge and a cube have either zero or two common
+incident boundary plaquettes. Their joint \(+1\) eigenspace is the code
+space. A \(Z\)-error is a chain \(E\in C_2(K_L;\F)\), with syndrome
+\(s=\partial_2E\) on the edge checks. Since
+\(\partial_1\partial_2=0\), every syndrome vertex has even degree.
+A closed residual \(Z\)-chain is trivial on the code precisely when
+it belongs to \(\operatorname{im}\partial_3\).
+
+The dual cubical cellulation \(K_L^*\) identifies each primal
+plaquette \(p\) with a dual plaquette \(p^*\), and each primal cube with
+a dual edge. An \(X\)-error is consequently a dual 2-chain with a dual
+edge syndrome. The two descriptions have the same geometry. The
+dimension of \(H_2(K_L;\F)\) is \(\binom42=6\); equivalently the
+coordinate 2-tori give six independent membrane classes. One may see
+this from the product cellular complex of four circles: its mod-two
+differentials vanish and its degree-two cells are indexed by pairs of
+circle factors. Thus the code carries six logical qubits.
+
+\subsection{The upper-corner rule}
+
+On an integer lift, denote by \(e_i\) the coordinate unit vectors and
+write
+\[
+ \operatorname{ht}(v)=v_1+v_2+v_3+v_4.
+\]
+For \(i<j\), the face with upper corner \(v\) has vertices
+\[
+ v,\quad v-e_i,\quad v-e_j,\quad v-e_i-e_j.
+\]
+Its tested edges are \([v-e_i,v]\) and \([v-e_j,v]\). A correction
+attempt flips that plaquette exactly when both tested edges belong to
+the syndrome. All six face types at every upper vertex have independent
+rate-one Poisson attempt clocks. Ineffective rings remain part of the
+graphical construction. On the dual lattice use the same upper-corner
+convention in dual coordinates.
+
+This is the convention in Drechsler--Oreg--Aharonov,
+Definition 6.2 and Eq.~(169) \cite{DOA}. In the notation of
+Pastawski--Clemente--Cirac, Eq.~(33), the tested sides leave the lower
+corner \cite{PCC}. The reflection
+\begin{equation}\label{eq:reflection}
+ \mathfrak r:\Z_L^4\longrightarrow\Z_L^4,\qquad
+             \mathfrak r(x)=-x
+\end{equation}
+takes our face with upper vertex \(v\) to their face with lower vertex
+\(-v\), and takes its tested incoming edges to their outgoing lower
+sides. The same applies to the dual lattice after choosing its
+coordinate origin. Check Pauli names are conventional: their edge
+checks are \(Z\)-type, whereas ours are \(X\)-type, so identifying the
+two displayed stabilizer conventions also exchanges \(X\) and \(Z\)
+uniformly, implementable by a Hadamard on every qubit. Reflection
+preserves incidence, locality and the independent-clock laws. This
+identifies the geometric rule up to reflection and the stated Pauli
+convention.
+
+\subsection{Time-independent generator and noise}
+
+For a primal plaquette \(p\) with tested edges \(e,e'\), and its dual
+plaquette with tested dual edges corresponding to cubes \(c,c'\), put
+\begin{equation}
+ \Pi_p^X=\frac{1-A_e}{2}\frac{1-A_{e'}}{2},\qquad
+ \Pi_p^Z=\frac{1-B_c}{2}\frac{1-B_{c'}}{2}.
+\end{equation}
+Products are unambiguous because all checks commute. Define
+\(\Diss[J](\rho)=J\rho J^\dagger-
+\frac12(J^\dagger J\rho+\rho J^\dagger J)\). The model is
+\begin{equation}\label{eq:generator}
+ \Lind_L=
+ \sum_p\bigl(\Diss[Z_p\Pi_p^X]+\Diss[X_p\Pi_p^Z]\bigr)
+ +\sum_p\sum_{P\in\{X,Y,Z\}}\gamma_{p,P}\Diss[P_p],
+ \qquad 0\le\gamma_{p,P}\le\eta .
+\end{equation}
+The coefficients are constant in time. Homogeneous \(\gamma_{p,P}\)
+give translation invariance. The support of each jump has a bounded
+diameter independent of \(L\). The Hamiltonian is zero.
+
+The noise clocks for all pairs \((p,P)\), and the two families of
+correction attempt clocks, are mutually independent. A noise ring
+applies its single-qubit Pauli without a syndrome test. In the primal
+\(Z\)-error marginal the noise rate is \(\gamma_{p,Z}+\gamma_{p,Y}\le
+2\eta\), and in the dual \(X\)-error marginal it is
+\(\gamma_{p,X}+\gamma_{p,Y}\le2\eta\). A \(Y\) mark belongs to both
+marginals; their independence is neither asserted nor needed.
+
+Correction rate one fixes the unit of physical time. If all correction
+attempt rates instead equal \(\lambda>0\), rescaling time by
+\(\lambda\) replaces \(\gamma_{p,P}\) by
+\(\gamma_{p,P}/\lambda\). All statements below then apply with
+\(\eta=\max_{p,P}\gamma_{p,P}/\lambda\) and horizon
+\(\lambda^{-1}e^{cL}\).
+
+\subsection{Readout and fidelity convention}
+
+Choose a code encoding isometry \(V_L\) for the six logical qubits.
+For the designated qubit \(Q\), prepare the other five logical qubits
+in any fixed density matrix \(\sigma\). Write
+\[
+ \enc(\rho)=V_L(\rho\otimes\sigma)V_L^\dagger.
+\]
+The recovery \(\readout\) measures the current commuting checks,
+applies fixed compatible primal and dual syndrome fillings, inverts
+the encoding, and discards the other five logical qubits.
+Section~\ref{sec:decoder} defines the fillings on every attainable
+syndrome. Define
+\begin{equation}\label{eq:fidelity}
+ \logical=\readout\circ e^{t\Lind_L}\circ\enc,\qquad
+ F_{\min}(L,t)=
+ \min_{\|\psi\|=1}\langle\psi|
+       \logical(|\psi\rangle\langle\psi|)|\psi\rangle.
+\end{equation}
+This is the squared-overlap convention of
+Drechsler--Oreg--Aharonov, Definition 2.19. Their Definition 2.20 calls
+the system an \(\epsilon\)-memory on an interval \(I\) when
+\(\inf_{t\in I}F_{\min}(L,t)\ge1-\epsilon\) \cite{DOA}.
+The recovery in this definition is fixed as a function of the measured
+syndrome. It needs no earlier syndrome record.
+
+\begin{theorem}[Finite-volume quantum memory]\label{thm:main}
+There exist constants \(\eta_0,c,C>0\), an integer \(L_0\), and for
+each integer \(L\ge L_0\) a syndrome-only recovery \(\readout\), such
+that the following holds. For every set of constant rates
+\(0\le\gamma_{p,P}\le\eta_0\), every choice of designated logical qubit
+and fixed state \(\sigma\) of the other five qubits, and every
+\(0\le t\le e^{cL}\), the dynamics \eqref{eq:generator}, initialized
+by \(\enc\), satisfies
+\begin{equation}\label{eq:main}
+ \inf_{0\le t\le e^{cL}}F_{\min}(L,t)\ge1-Ce^{-cL}.
+\end{equation}
+The constants are uniform over these rates and inputs. In fact, for
+every pure state \(|\Psi\rangle_{QR}\) with an arbitrary reference \(R\),
+\[
+ \langle\Psi|(\logical\otimes\id_R)
+          (|\Psi\rangle\langle\Psi|)|\Psi\rangle
+ \ge1-Ce^{-cL}
+\]
+through the same interval. The recovery can be chosen independently
+of the rates, \(t\), \(\sigma\), and the input state.
+\end{theorem}
+
+The proof is completed in Section~\ref{sec:quantum}. A single event
+will recover all six logical qubits, which explains the stated
+uniformity in the unused logical state. The restriction to an encoded
+start includes the reference-entangled version.
+
+\begin{theorem}[Infinite-volume syndrome stability]\label{thm:infinite}
+For either sector on \(\Z^4\), the independent-clock graphical process
+started with empty syndrome is well defined. There exist
+\(\eta_0,C,\mu>0\) such that, for every choice of constant
+single-qubit Pauli rates bounded by \(\eta_0\), every vertex \(x\), every
+deterministic \(t\ge0\), and every real \(d\ge0\),
+\begin{equation}\label{eq:infinite-main}
+ \Prb\{x\text{ belongs at time }t
+   \text{ to a syndrome component of diameter }\ge d\}
+       \le Ce^{-\mu d}.
+\end{equation}
+The same bound, after a fixed enlargement of \(C\), holds if the
+component and its membership of \(x\) are observed at any common
+instant of the slab of the proof containing \(t\).
+Moreover, writing \(\Prb_\gamma\) for an allowed family of rates,
+\[
+ \lim_{\eta\downarrow0}
+ \sup_{\substack{0\le\gamma_{p,P}\le\eta\\x\in\Z^4,\ t\ge0}}
+ \Prb_\gamma\{x\text{ is occupied at time }t\}=0.
+\]
+Diameter is the ambient lattice sup diameter. The assertions are
+marginal statements for a named sector.
+\end{theorem}
+
+Section~\ref{sec:infinite} proves this theorem, including existence of
+the process. At \(t=0\) the syndrome is empty. In statements about a
+whole slab we use the slab \([0,T]\) for \(t=0\), and otherwise
+\(((k-1)T,kT]\) when \((k-1)T<t\le kT\).
+
+Theorems~\ref{thm:main} and \ref{thm:infinite} have the independent
+single-qubit Pauli scope stated above.
+Theorem~\ref{thm:correlated} treats correlated stochastic Pauli faults.
+The strongest statement, Theorem~\ref{thm:general}, covers arbitrary
+sufficiently weak additive finite-range Markovian Lindblad noise,
+including coherent and non-Pauli terms, with the exact correction.
+Perturbations of the correction's own jump operators and general
+non-Markovian baths remain outside that theorem.
+The estimates yield existence of positive constants, rather than a
+numerically useful threshold or a practical minimum size.

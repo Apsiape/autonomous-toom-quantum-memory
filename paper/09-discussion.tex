@@ -1,0 +1,116 @@
+\section{Scope, parameter choices and limitations}\label{sec:discussion}
+
+\subsection{Order of constants}
+
+For the independent-noise proof, the constants can be chosen in the following order.
+The buffer radius \(R=2000100\) is fixed. Choose a certificate
+exponent \(A>100\), which suffices for the path count, and then
+choose \(q>0\) small enough for
+\eqref{eq:witness-prebound}. Choose \(B\) sufficiently large to
+suppress the two clock-only terms in
+\eqref{eq:bad-cost}, and finally \(\eta_0>0\) small enough for its
+noise term. This fixes \(T=1000B\), the dependence divisor \(D_{\mathrm{dep}}\),
+and all comparison constants. Only after these choices is \(L\)
+required to be sufficiently large for the lifted windows and
+epoch estimates. The resulting \(L_0\) can be astronomically large.
+The proof does not give an operating threshold of practical size.
+For Theorem~\ref{thm:general}, choose the coarse walk and density
+constants, then the target superset cost, then \(B\), and then the
+incident noise strength; the product mesh is sent to zero afterwards.
+The resulting threshold is astronomically small and applies to
+coherent amplitude \(|h|\), rather than \(h^2\).
+
+\subsection{A wrapping syndrome that does not clear}
+
+The clean-start qualification cannot be replaced by a deterministic
+claim that every syndrome clears in a short time. To see this,
+choose two different parallel coordinate lines winding in direction
+1, at coordinates 0 and \(w\) in direction 2, with the other
+coordinates fixed and \(1\le w<L\). Their mod-two sum is the
+boundary of the periodic width-\(w\) ribbon of \((1,2)\)-plaquettes
+between them: its interior edges cancel and the longitudinal ends
+close by periodicity.
+
+This is an attainable even-degree syndrome. At every occupied
+vertex there is one incoming marked direction and one outgoing
+marked direction. There is never a pair of incoming marked
+directions, so every correction predicate fails. The syndrome
+remains frozen under any noiseless attempt sequence.
+
+An analogous example exists for the good-map comparison.
+Initialize a complete coarse coordinate line with zeros and all
+other bits with ones. At every site on the line the four coordinate
+sets \(A_i\) contain the zero predecessor \(d=0\), while \(A_5\)
+contains the zero predecessor \(d=e_1\) along the same periodic
+line. Every minimum in \eqref{eq:comparison} is therefore zero,
+so that line persists under every good update. Arbitrary bottom
+zeros cannot be charged as fresh rare failed bins.
+
+The overlap argument avoids this issue by using an older field
+that itself arose from all-one data in the preceding epoch.
+A disagreement across its overlap forces a long path in that
+particular random clean-start field. Estimates are conditioned
+only before the older window starts, never on an arbitrary
+intermediate syndrome or comparison configuration.
+
+\subsection{What is and is not implied}
+
+Drechsler, Oreg and Aharonov's own physical model is independent
+single-qubit Pauli noise, as specified in their Definitions 2.25,
+2.37 and 7.7 \cite{DOA}. Theorem~\ref{thm:main} answers their
+time-independent question in that model.
+Theorem~\ref{thm:correlated} extends the conclusion to spacetime local
+stochastic Pauli noise on unit time cells, including bounded-range
+multi-qubit and adaptive faults with a law independent of the logical
+input. Its description is \emph{Lindbladian correction,
+trajectory-defined noise}; a general correlated law need not have
+an additive Lindblad noise generator.
+
+The local-stochastic condition depends on its time grid. A shifted
+unit grid has parameter at most \(2\sqrt p\), and aligned \(k\)-fold
+refinement has parameter at most \(p^{1/k}\), as proved in
+Lemma~\ref{lem:grid}. These changes are not merely a fixed
+rescaling of constants.
+
+Their \emph{fully autonomous} notion asks for protection against
+general local noise by a time-independent, local, translationally
+invariant Lindbladian
+\cite[Section 1.5.1, Table 1]{DOA}.
+Theorem~\ref{thm:general} is the strongest result: exponential storage
+under any sufficiently weak additive finite-range Markovian Lindblad
+noise generator, with coherent and non-unital noise included.
+It meets their fully autonomous definition for such noise, with
+translation invariance when the noise is homogeneous.
+The stochastic-Pauli theorems retain their stated structure and
+correlated-history scope.
+The thermal Davies-memory precedent is due to Alicki and the
+Horodeckis \cite{AHHH2010}; the outside-equilibrium question is stated
+explicitly in Drechsler--Oreg--Aharonov Section 1.4.1 \cite{DOA}.
+
+The added noise generator must itself generate CPTP evolution.
+Uniform correction-rate changes are handled by rescaling time;
+small inhomogeneous rate changes can be treated above a common
+positive baseline as additive local dissipators.
+General perturbations of the correction's own jump operators,
+including \(P\Pi\mapsto P\Pi+\delta K\), remain open, as does
+coupling to a general non-Markovian quantum bath.
+The former is part of the separate superoperator-stability problem
+in their Section 1.8 \cite{DOA}.
+No theorem here gives a general conversion of synchronous memories
+to time-independent Lindbladians or addresses faulty final
+syndrome measurement.
+
+The final decoder may process the entire current syndrome. No
+constant-time local classical implementation of that readout is
+asserted. Its mathematical role is to define a fixed recovery
+from the present configuration and to detect an invariant
+homology class along small-component histories.
+
+A logical membrane added to an initial error does not change
+its syndrome, so syndrome geometry cannot determine that
+initial logical class. From an encoded start it is known to
+be trivial, and the history estimate prevents its subsequent
+change with high probability. On \(\Z^4\), the result instead
+states uniform rooted syndrome tails and vanishing low-noise
+density. These are the exact finite- and infinite-volume
+conclusions of the proof.

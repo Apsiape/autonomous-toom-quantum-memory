@@ -1,0 +1,174 @@
+\section{Overlapping comparison windows}\label{sec:windows}
+
+The comparison \(\Comp^0\) dominates the syndrome indefinitely by
+\eqref{eq:domination}, but its full backward cone eventually wraps.
+We now use only short, clean-start comparison estimates to control
+that same old field.
+
+Fix all parameters from Proposition~\ref{prop:path}. For sufficiently
+large \(M\), set
+\begin{equation}\label{eq:epoch}
+ h=\left\lfloor\frac{M}{100(R+3)}\right\rfloor,\qquad
+ a_j=jh\quad(j\ge0).
+\end{equation}
+An epoch consists of \(h\) slabs, and a two-epoch comparison window
+has depth \(2h\). It satisfies \(2R(2h)<M/2\), so all results of
+Section~\ref{sec:contours} apply within it. We assume \(h\ge1\).
+
+On one common sample of physical marks let
+\(\Comp_j=\Comp^{a_j}\). Each of these auxiliary fields starts all
+ones at its own date; none restarts the device. Define
+\begin{align}
+ G_j&=\{\Comp_j(z,a_{j+2})=\Comp_{j+1}(z,a_{j+2})
+                       \text{ for every }z\},\label{eq:G}\\
+ V_j&=\left\{\begin{array}{l}
+ \text{at no date }k\in(a_j,a_{j+2}]
+ \text{ does }\Proxy^{a_j}(\cdot,k)\\
+ \text{contain a spatially connected set of diameter }\ge M/200
+ \end{array}\right\}.\label{eq:V}
+\end{align}
+Spatial adjacency here is sup distance one. The diameter is the
+ambient coarse torus diameter.
+
+\begin{lemma}[Coalescence over an overlap]\label{lem:coalescence}
+There are constants \(C,\kappa>0\), uniform in \(j,L\) and the
+allowed rates, such that
+\begin{equation}\label{eq:window-cost}
+ \Prb(G_j^c)\le CM^4e^{-\kappa h},\qquad
+ \Prb(V_j^c)\le C(2h)M^4e^{-\kappa M/200}.
+\end{equation}
+Both estimates hold conditionally on the entire physical history
+through \(a_jT\).
+\end{lemma}
+\begin{proof}
+During the common part of their lifetimes,
+\(\Comp_j\le\Comp_{j+1}\): the latter is initialized all ones at
+\(a_{j+1}\), and every later map is monotone or constant.
+Suppose the two fields disagree at a specified endpoint
+\((x,a_{j+2})\). The older bit there is zero and the newer bit is
+one. They use the same update map. A constant map cannot give
+different outputs. For a nonconstant map, different outputs imply
+that some predecessor argument differs, with displacement in
+\(\Delta\). Choose one such predecessor and repeat backwards.
+This produces a path of disagreements at every integer date back
+to \(a_{j+1}\), including that date.
+
+Every site on this path is a zero of \(\Comp_j\). Its dates lie
+strictly after \(a_j\), since \(a_{j+1}>a_j\), so every site belongs
+to \(\Proxy^{a_j}\). Consecutive sites have product distance at most
+\(R\). The endpoint-to-endpoint temporal displacement is \(h\).
+Proposition~\ref{prop:path}, anchored at the specified final site,
+bounds this event by \(Ce^{-\kappa h}\) in the two-epoch window.
+Summing over the \(M^4\) possible final spatial sites proves the
+bound for \(G_j^c\).
+
+If \(V_j\) fails, at some one of its \(2h\) dates a spatial path in
+the proxy joins two sites separated by at least \(M/200\).
+The finite coarse torus ensures that a connected set witnessing
+the diameter contains such a finite path. Apply
+Proposition~\ref{prop:path} at its initial spatial site, with
+\(u=M/200\), and sum over \(M^4\) sites and \(2h\) dates. This proves
+the other estimate.
+
+Both comparisons in this argument are clean-start functions of the
+increments after \(a_jT\). Those increments are independent of the
+history through \(a_jT\). Thus precisely the same estimates hold
+under the stated conditioning. No conditional estimate is used at
+the middle date of the overlap.
+\end{proof}
+
+\begin{lemma}[Propagation of comparison agreement]\label{lem:iteration}
+For every integer \(n\ge1\), on
+\[
+ \bigcap_{0\le j<n}(G_j\cap V_j)
+\]
+the physical syndrome, started empty, has only components of physical
+diameter less than \(L/100\) at every time in \([0,nhT]\).
+\end{lemma}
+\begin{proof}
+We track which clean-start comparison equals the old comparison.
+At the beginning of epoch \(i\ge1\) we claim
+\begin{equation}\label{eq:seam}
+ \Comp^0(\cdot,a_i)=\Comp_{i-1}(\cdot,a_i).
+\end{equation}
+For \(i=1\) this is identity, since \(\Comp_{i-1}=\Comp_0\).
+If it holds at \(a_i\), the two fields use common deterministic
+maps and remain equal through the following epoch. At \(a_{i+1}\),
+the event \(G_{i-1}\) equates \(\Comp_{i-1}\) with \(\Comp_i\).
+This proves \eqref{eq:seam} inductively for all needed \(i\).
+
+Let \(W_k\) be the blocks visited by syndrome vertices at any instant
+of slab \(I_k\). Equation~\eqref{eq:domination} puts \(W_k\) in
+\(\Proxy^0(\cdot,k)\). In epoch zero this is directly controlled by
+\(V_0\). In epoch \(i\ge1\), equality
+\eqref{eq:seam} and its propagation ensure equality of the bits
+used to form \(\Proxy^0(\cdot,k)\) and
+\(\Proxy^{a_{i-1}}(\cdot,k)\). This includes the predecessor date of
+the earliest slab in the epoch: it is exactly \(a_i\).
+Thus \(W_k\) is contained in the proxy tested by \(V_{i-1}\).
+The physical syndrome at that seam can be nonempty; only comparison
+bits have been equated.
+
+Two adjacent physical vertices belong to identical or adjacent
+blocks. Further, if their containing blocks have coarse torus
+distance \(d\), their physical torus distance is at most \(b(d+1)\).
+To verify this inequality, lift their relative block displacement
+in each coordinate by a shortest representative; their offsets
+inside the two intervals add less than one block width. This works
+also for noninteger \(b=L/M\).
+
+If a physical component had diameter at least \(L/100\), its
+edge-connected block image would therefore have diameter at least
+\[
+ M/100-1\ge M/200
+\]
+for sufficiently large \(M\). That image is contained in the
+visited set in its slab, contradicting the applicable \(V_j\).
+The whole-slab definition covers both configurations immediately
+before and after every physical jump. Almost surely no ring
+occurs at a deterministic slab boundary. At time zero the syndrome
+is empty. These observations give the assertion for all times in
+the stated interval.
+\end{proof}
+
+\begin{proposition}[Cumulative finite-torus estimate]\label{prop:history}
+There exist \(\eta_0,C_0,\beta>0\) and an integer \(L_0\), independent
+of the allowed spatial noise rates, such that in either sector,
+for every \(L\ge L_0\) and deterministic \(t\ge0\),
+\begin{equation}\label{eq:history}
+ \Prb\{\exists s\in[0,t]:
+       \text{a syndrome component at }s
+                   \text{ has diameter }\ge L/100\}
+ \le \min\{1,C_0(1+t)e^{-\beta L}\}.
+\end{equation}
+The initial syndrome is empty.
+\end{proposition}
+\begin{proof}
+For \(t>0\) put \(n=\lceil t/(hT)\rceil\). A union bound over the
+events in Lemma~\ref{lem:iteration}, with
+Lemma~\ref{lem:coalescence}, gives
+\begin{equation}\label{eq:polynomial-history}
+ CnM^4\bigl[e^{-\kappa h}
+                  +2h e^{-\kappa M/200}\bigr]
+\end{equation}
+as an upper bound on the probability. Some of these tests extend
+past \(t\). Using their future marks in an upper bound is legitimate;
+neither the device nor the recovery consults them.
+
+For all sufficiently large \(M\),
+\(h\ge M/[200(R+3)]\), while \(h\le M\).
+Also \(M\ge L/(2B)\) once \(L\) is sufficiently large.
+Consequently the bracket in
+\eqref{eq:polynomial-history} is bounded by a polynomial in \(L\)
+times \(e^{-b_1L}\) for a fixed \(b_1>0\). Since
+\(hT\ge1\), we have \(n\le1+t\). Absorb all remaining polynomial
+factors into half the positive exponential rate, enlarging \(L_0\)
+and \(C_0\). This gives \eqref{eq:history} with, for example, some
+\(\beta\le b_1/2\). The event at \(t=0\) is empty.
+The probability is always at most one.
+
+Overlapping windows share many increments. Their independence was
+not used: the entire accumulation step is a union bound on the
+original sample of marks. The argument also never assumes
+contraction for arbitrary comparison data at a restart.
+\end{proof}

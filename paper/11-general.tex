@@ -1,0 +1,906 @@
+\section{Additive finite-range Markovian Lindblad noise}\label{sec:general}
+
+This section gives the strongest storage statement. The correction
+generator is kept exact; the added noise can couple syndrome
+coherences and need not preserve the identity. The stochastic-Pauli
+theorems retain their separate conclusions, including the correlated
+history model, which need not be Markovian.
+
+\subsection{Noise strength and theorem}
+
+Let
+\[
+ \mathcal A=\sum_p\bigl(\Diss[Z_p\Pi_p^X]+\Diss[X_p\Pi_p^Z]\bigr)
+\]
+be the unit-rate correction of \eqref{eq:generator}, without its Pauli
+noise terms. Fix a microscopic interaction range \(r\), independently
+of \(L\). Let \(\mathcal N\) be a time-independent Lindblad generator
+whose semigroup is completely positive and trace preserving
+(CPTP), with a decomposition into maps supported on qubit sets \(Y\)
+of diameter at most \(r\), satisfying
+\begin{equation}\label{eq:incident-strength}
+ \mathcal N=\sum_Y\mathcal N_Y,\qquad
+ \sup_i\sum_{Y\ni i}\|\mathcal N_Y\|_\diamond\le\epsilon .
+\end{equation}
+The diamond norm is the completely bounded trace norm, including an
+arbitrary untouched reference. The summands need not individually
+generate channels; their sum must be a Lindblad generator.
+An empty-support scalar term can be included in the
+trace-preserving normalization.
+
+A Hamiltonian contribution \(-i[H_Y,\cdot]\) has diamond norm at most
+\(2\|H_Y\|\), and \(\Diss[J_Y]\) has norm at most \(2\|J_Y\|^2\):
+these follow by bounding each left/right multiplication by its
+operator norms, also after tensoring a reference. Thus
+\[
+ h\sum_i X_i\quad\text{has strength at most }2|h|,\qquad
+ \gamma\sum_i\Diss[|0\rangle\langle1|_i]
+       \quad\text{has strength at most }2\gamma .
+\]
+The coherent threshold applies to the amplitude \(|h|\), not \(h^2\).
+Both non-unital dissipation, such as amplitude damping, and
+bounded-range multi-qubit dissipation are allowed.
+
+\begin{theorem}[General additive-noise storage]\label{thm:general}
+For each fixed range \(r\) there exist
+\(\epsilon_*(r),c,C>0\) and an integer \(L_0\) such that the following
+holds uniformly for every integer \(L\ge L_0\) and every generator
+\(\mathcal N\) satisfying \eqref{eq:incident-strength} with
+\(\epsilon\le\epsilon_*(r)\).
+Initialize the six logical qubits of the periodic four-dimensional
+toric code by ideal encoding, evolve by
+\(e^{t(\mathcal A+\mathcal N)}\), and apply the current-syndrome
+decoder of Section~\ref{sec:decoder} in both sectors, followed by
+inverse encoding. For every pure state \(|\Psi\rangle\) of all six
+logical qubits and any untouched reference, and every deterministic
+\(0\le t\le e^{cL}\), the decoded target overlap is at least
+\begin{equation}\label{eq:general-fidelity}
+ 1-Ce^{-cL}.
+\end{equation}
+The same worst-case bound holds for any designated logical qubit
+with any fixed state of the unused qubits.
+The constants and decoder are independent of the input,
+reference dimension, noise generator within the bound, and read
+time. Preparation and final measurement and decoding are ideal.
+\end{theorem}
+
+The noise is \emph{added} to the exact \(\mathcal A\).
+Uniform changes of the correction rate are covered by time rescaling.
+Small spatial rate variations are also covered by using a common
+positive rate as baseline and treating the excess local correction
+dissipators as additive noise of the corresponding incident strength.
+No general assertion is made for replacing a correction jump
+\(P\Pi\) by \(P\Pi+\delta K\): the difference of the two
+dissipators need not itself be a Lindblad noise generator.
+General non-Markovian quantum baths are outside this theorem.
+
+\subsection{A local Pauli normal form and completely positive interpolation}
+
+Use Hermitian physical Pauli strings \(P_a\), with \(P_0=I\).
+For a dissipative coefficient indexed by \(a,b\), its
+\emph{declared support} is
+\(\supp(P_a)\cup\supp(P_b)\), even if a product \(P_bP_a\)
+cancels some factors. Let \(v_r\) bound the number of qubits in a
+range-\(r\) set.
+
+\begin{lemma}[Local normal form]\label{lem:choi}
+Every generator in \eqref{eq:incident-strength} has a representation
+\begin{equation}\label{eq:pauli-normal}
+ \begin{split}
+ \mathcal N(X)={}&-i\left[\sum_{a\ne0}h_aP_a,X\right]\\
+ &+\sum_{a,b\ne0}c_{ab}
+ \left(P_aXP_b-\tfrac12P_bP_aX-\tfrac12XP_bP_a\right),
+ \end{split}
+\end{equation}
+where \(h_a\) are real and \(c\) is positive semidefinite.
+Every nonzero coefficient has declared support in a range-\(r\)
+set. For a constant \(C_r\), independent of \(L\), the sum of
+absolute coefficients whose declared supports touch any specified
+qubit is at most \(C_r\epsilon\).
+\end{lemma}
+\begin{proof}
+For a local summand on \(Y\), use the normalized maximally
+entangled vector \(|\Omega_Y\rangle\) and the orthonormal vectors
+\(|P_a\rangle=(P_a\otimes I)|\Omega_Y\rangle\).
+The entries \(d^Y_{ab}\) of its Choi matrix in this basis are exactly
+its coefficients for \(X\mapsto P_aXP_b\).
+Their moduli are at most \(\|\mathcal N_Y\|_\diamond\), because
+the Choi trace norm is bounded by the diamond norm and bounds
+each matrix element. There are at most \(16^{v_r}\) entries.
+Tensoring identity maps outside \(Y\) only adds identity Pauli
+factors. Sum these matrices in the global Pauli basis.
+
+The principal nonidentity/nonidentity block \(c=(d_{ab})_{a,b\ne0}\)
+is positive semidefinite. Indeed, compress the Choi matrix of
+\(e^{s\mathcal N}\) orthogonally to \(|I\rangle\). It is positive,
+vanishes at \(s=0\), and its derivative there is exactly \(c\);
+division by \(s>0\) and the limit prove positivity.
+Hermiticity preservation gives \(d=d^\dagger\).
+Subtract the dissipative sum in \eqref{eq:pauli-normal}.
+All its nonidentity/nonidentity entries cancel, leaving
+\(GX+XG^\dagger\), with the real identity/identity entry
+shared between the two legs. Both the original generator and
+each dissipative bracket have zero trace on every input.
+Hence \(G+G^\dagger=0\), so the remainder is a commutator
+with a Hermitian operator.
+
+Its coefficients arise only from identity-leg entries and products
+\(P_bP_a\) belonging to the same local set \(Y\).
+Drop a scalar Hamiltonian. The absolute coefficient bound,
+including those products and cancellations, is therefore bounded
+by a fixed multiple of \(16^{v_r}\) times the incident sum in
+\eqref{eq:incident-strength}; for example \(C_r=5\cdot16^{v_r}\)
+suffices. Products do not enlarge the declared local sets.
+This proves the support and strength assertions.
+\end{proof}
+
+\begin{lemma}[Label deletion and interpolation]\label{lem:label-interpolation}
+Choose \(x_a\in[0,1]\), \(a\ne0\), and in \eqref{eq:pauli-normal}
+replace \(h_a\) by \(x_ah_a\) and \(c_{ab}\) by \(x_ac_{ab}x_b\).
+The resulting \(\mathcal N(x)\) generates CPTP evolution.
+Deleting every label meeting a qubit region \(W\) makes that
+evolution act as identity on \(W\).
+For regions \(W_i\) separated pairwise by more than \(r\),
+permanently delete any family of labels and scale each remaining
+label meeting \(W_i\) by \(z_i\in[0,1]\), leaving the others at one.
+Then
+\[
+ \partial_i\partial_j\mathcal N(z)=0\quad(i\ne j),
+\]
+and \(\partial_i\mathcal N(z)\) is a sum of Pauli sandwiches
+\(X\mapsto uPXQ^\dagger\), with
+\begin{equation}\label{eq:derivative-cost}
+ \sum |u|\le4C_r\epsilon |W_i|
+\end{equation}
+uniformly in \(z\). Every such map acts trivially on all permanently
+excluded regions.
+\end{lemma}
+\begin{proof}
+The new coefficient matrix is obtained from \(c\) by diagonal
+congruence, and is positive semidefinite; the Hamiltonian remains
+Hermitian. Thus the displayed normal form gives a Lindblad
+generator. If all labels meeting \(W\) are zero, every surviving
+operator has identity on \(W\), including products in the
+anticommutators. The propagator consequently has Kraus operators
+acting as identity there.
+
+Tag a Hamiltonian monomial by \(a\), and every one of the three
+summands of a dissipative monomial by both \(a,b\).
+A substitution \(x_a=0\) deletes precisely the exponential-series
+words using that label, including a tagged anticommutator product
+proportional to identity. Since a declared support has diameter
+at most \(r\), it cannot meet two separated \(W_i\).
+Every surviving generator monomial therefore depends on at most
+one \(z_i\), proving the mixed-derivative identity.
+Its possible powers are \(z_i\) and \(z_i^2\), whose derivatives
+on the unit interval have modulus at most two.
+Expand the commutator and dissipative bracket into Pauli
+sandwiches, putting all scalar phases in \(u\).
+Their coefficient sums are bounded by
+\eqref{eq:derivative-cost} using Lemma~\ref{lem:choi} and the
+incident sum over \(W_i\).
+Permanent deletions remain in force after differentiation.
+\end{proof}
+
+\begin{lemma}[Product approximation]\label{lem:product-general}
+Partition each slab into slices of lengths \(d\le\delta\), with the
+actual remaining duration in a final slice. In each slice apply
+\(e^{d\mathcal N}\) and every local correction channel
+\(e^{d\Diss[P\Pi]}\) in a fixed order.
+For fixed \(L\) and finite \(t\), this product converges in diamond
+norm to \(e^{t(\mathcal A+\mathcal N)}\) as \(\delta\downarrow0\).
+A correction channel has the exact two-Kraus representation
+\begin{equation}\label{eq:correction-kraus}
+ K_0=I-\Pi+e^{-d/2}\Pi,\qquad
+ K_1=\sqrt{1-e^{-d}}\,P\Pi .
+\end{equation}
+\end{lemma}
+\begin{proof}
+The successful Pauli reverses both tested check signs, so
+\(\Pi P\Pi=0\). On the four operator blocks associated with
+\(\Pi\) and \(I-\Pi\), the active diagonal block loses a factor
+\(e^{-d}\), the off-diagonal blocks gain \(e^{-d/2}\), and the
+lost diagonal weight is transferred by \(P\).
+The Kraus operators in \eqref{eq:correction-kraus} give exactly
+these four solutions of the one-term master equation.
+Their squared products sum to identity.
+
+For a fixed finite system, a slice product and the full
+exponential have the same linear term in \(d\). Their exponential
+series remainders differ by at most \(O_L(d^2)\) for \(d\le1\).
+All complete slice maps are CPTP and have diamond norm one.
+Telescoping their products therefore gives total error
+\(O_L(t\delta)\). Constants in this limiting argument may
+depend on \(L\). The storage estimates below are uniform in
+the mesh once it is sufficiently fine for the fixed block side.
+No thermodynamic limit is interchanged with this product limit.
+\end{proof}
+
+\subsection{Intrinsic slab violations and protected regions}
+
+Use the block geometry of Section~\ref{sec:local}, with
+\(B\ge r+20\), enlarged for the fixed microscopic metric,
+\(M=\lfloor L/B\rfloor\), \(b=L/M\), and \(T=1000B\).
+The offsets \(\Delta,A_s\) are those of \eqref{eq:regions}.
+For a full slab impose the following two implications in both
+sectors: endpoint occupation of \(Q_z\) requires initial occupation
+in every \(z+A_s\), and any visit to \(Q_z\) requires initial
+occupation somewhere in \(U_z\). Visits include every intermediate
+single-face factor of a noise Pauli. In a short terminal slab ending
+at readout impose only the visit implication.
+
+Let \(W_z\) contain the physical supports of all checks whose
+syndrome edges have a vertex in either sector's \(U_z\), with a
+fixed microscopic collar for the two native lattice conventions.
+Then
+\begin{equation}\label{eq:protected-volume}
+ |W_z|\le V_B=O_{R,r}(B^4).
+\end{equation}
+There is an integer \(D_{\rm pack}\), independent of \(B,L,t\),
+such that from any \(m\) specified bins in one slab one can retain
+at least \(m/D_{\rm pack}\) whose \(W_z\) are separated by more
+than \(r\) and whose internal correction tapes are disjoint.
+Because \(B\ge r+20\), each collar occupies only a fixed number of
+coarse blocks and each retained region excludes a fixed coarse
+neighbourhood, so \(D_{\rm pack}\) is independent of \(B\).
+This is a greedy bounded-degree packing on the coarse lattice.
+
+\begin{lemma}[Uniform internal service test]\label{lem:quantum-clock}
+There is a test of the internal correction opportunities in a
+protected box (no data-noise label meets \(W_z\), so interior edges change only by internal correction updates and by
+boundary-face corrections toggling collar edges), for both sectors together, of failure probability
+at most \(q_B\), with \(q_B\to0\) as \(B\to\infty\), such that
+passing implies the two intrinsic implications for every allowed
+initial check assignment and every boundary history.
+For product slices the assertion holds for sufficiently small
+mesh \(\delta\), uniformly over that boundary history.
+It is used only when the internal tested check values are definite.
+\end{lemma}
+\begin{proof}
+Run a clean cut on full faces in \(U_z\) with the restricted initial
+edge assignment, coupled to the internal opportunities.
+Exclude a chronological chain of \(m_f=1000T\) intersecting
+opportunities ending within two cells of \(Q_z\).
+The bound in Lemma~\ref{lem:bad-prob} is
+\(CB^4(96eT/m_f)^{m_f}\).
+A discrepancy from the boundary must travel through such an
+internal suffix: initial interior edges agree, and the boundary
+is at distance at least \(RB-2>m_f+5\).
+The exclusion of other changes on inner edges concerns data-noise
+changes, while a boundary-face correction may toggle an interior
+collar edge and is included as boundary input in the discrepancy
+trace.
+Boundary evolution can otherwise be arbitrary.
+
+For a failed coordinate predecessor condition, confinement keeps
+the clean cut beyond the corresponding face of the target block.
+For the fifth condition, its maximum initial height is at most
+\(H=\lfloor b(\sum_i z_i+4)\rfloor\).
+Parity is even in the interior northeast cones.
+Lemma~\ref{lem:clearance} then clears each target vertex by its
+two-pass schedule, with failure bound
+\[
+ (2B+1)^4(4\cdot2^{12})^{8B+2}e^{-T/2}.
+\]
+If \(U_z\) was initially empty, the clean cut stays empty.
+These arguments give both implications for every initial
+assignment. In a terminal interval of length less than \(T\),
+only the fast-chain exclusion and visit implication are used,
+and its probability is bounded by the full-\(T\) estimate.
+
+For a product slice use one independent Bernoulli opportunity
+per internal face with parameter \(1-e^{-d}\).
+Each Bernoulli opportunity is the indicator of at least one mark
+of that face's independent rate-one Poisson process in the slice,
+and excluding slices with two or more marks across the entire
+tested internal-face family makes every fixed serialization agree
+with their chronological order.
+If that family, including both sectors, has \(n_B=O_R(B^4)\)
+faces, the second factorial moment bounds this collision
+probability by \(n_B^2T\delta/2\).
+Choose the mesh so this is at most \(e^{-B}\).
+Twice the sum of the preceding two tails, plus \(e^{-B}\),
+can be used as \(q_B\); it tends to zero.
+Separate protected boxes have independent unconditioned tapes.
+The next lemma justifies the use of definite internal predicates
+despite a coherent exterior.
+\end{proof}
+
+\subsection{Exact linear histories and a one-leg filter}
+
+For a product approximant expand each \(e^{d\mathcal N}\)
+in its absolutely convergent series and each normal-form
+coefficient into tagged Pauli sandwiches. Use a common
+two-outcome correction record on ket and bra.
+Each leg of a fine term is a Pauli word with scalar
+no-jump factors on definite syndromes. Serialize all its
+Pauli factors. For arbitrary input operators, resolve each
+slab boundary by independent left and right global syndrome
+projectors, retaining the off-diagonal blocks. These are
+linear resolutions, not physical measurements.
+For encoded input the ket and bra histories are already
+syndrome definite whenever the corresponding amplitude is
+nonzero. Absolute convergence at fixed finite \(L,t,\delta\)
+justifies the regroupings below.
+
+For a bin \(u=(z,k)\) set \(J_u=1\) if a tagged data label on
+either leg meets \(W_z\), or, when there is no such label,
+if the \emph{ket} violates an intrinsic implication in at
+least one sector. Set \(\mathrm{good}_u=1-J_u\).
+Zero-amplitude histories contribute zero.
+In a protected box, remaining noise acts off all tracked
+checks; a correction jump has a fixed Pauli shift of their
+signs, even if its predicate reads other signs, and a no-jump
+preserves them. The intrinsic mask is therefore determined
+by initial tracked signs and the correction record.
+
+Write \(\Phi_S\) for the linear map with exact bad-bin set
+\(S\), before readout, and define its superset sum
+\begin{equation}\label{eq:coherent-superset}
+ \mathcal E(K)=\sum_{S\supseteq K}\Phi_S .
+\end{equation}
+Superset fault-path norms are standard in quantum fault-tolerance
+analyses \cite{AGP,DST}; the estimate below is proved for the
+present correction.
+These maps need not be positive. Summing all \(\Phi_S\)
+gives the physical product channel, with all independent
+left and right syndrome resolutions included.
+
+\begin{lemma}[Protected-halo filter]\label{lem:halo-filter}
+In one slab permanently delete all data labels touching any
+specified collection of protected regions. Between correction
+gates allow exact interpolated exterior noise channels and
+specified Pauli sandwiches acting off those regions, with
+their scalar coefficients factored out.
+For separated protected roots \(\mathcal F_0\), impose an
+intrinsic violation on the ket at each root; on any further
+protected roots one may impose both passing implications.
+The resulting linear map has diamond norm at most
+\(q_B^{|\mathcal F_0|/2}\), even when the bra is unrestricted
+and its inserted Paulis differ from the ket's.
+\end{lemma}
+\begin{proof}
+Choose Kraus records for every exterior channel and for each
+correction gate. Let \(\Pi_s\) be the nonzero joint eigenspace
+projectors of the union of tracked checks.
+For a common record \(\omega\), its ket product \(K_\omega\)
+maps \(\Pi_s\) into \(\Pi_{s\oplus d(\omega)}\):
+a correction jump gives a fixed Pauli shift, each no-jump
+commutes with all checks, and exterior factors act off their
+supports. Boundary jumps may test unknown other checks
+without changing this translation identity.
+The intermediate tracked signs are fixed by \(s\) and the
+jump prefix. Thus the ket acceptance mask \(m(s,\omega)\)
+is a diagonal zero/one function of its initial check block.
+
+With an orthonormal record register define
+\[
+ V_m=\sum_\omega|\omega\rangle\otimes
+                 \sum_s m(s,\omega)K_\omega\Pi_s,\qquad
+ V_R=\sum_\omega|\omega\rangle\otimes K^R_\omega .
+\]
+The unrestricted bra circuit is a composition of channels
+and norm-one unitary insertions, so \(V_R\) is an isometry.
+For fixed \(\omega\), the final translated check blocks
+from different \(s\) are orthogonal. Hence
+\[
+ \|V_m\|^2=
+ \max_s\sup_{\substack{\psi\in\operatorname{ran}\Pi_s\\\|\psi\|=1}}
+       \sum_\omega m(s,\omega)\|K_\omega\psi\|^2 .
+\]
+There is no multiplicity factor for possible initial
+check assignments. Additional passing masks only decrease
+this nonnegative sum.
+
+For fixed \(s,\psi\), sample the one-leg record distribution.
+At an internal face the predicate stays definite after
+every preceding outcome. An independent Bernoulli opportunity
+of parameter \(1-e^{-d}\) gives exactly the correct
+probabilities: accept on an opportunity when enabled,
+and otherwise record no jump. The normalized vector is
+unchanged or has the indicated Pauli applied.
+Sample every other Kraus outcome from its ordinary
+conditional probability given that vector.
+Pre-sampling the independent internal tapes and using
+fresh randomness elsewhere therefore reproduces the
+one-leg distribution by the chain rule, also for states
+entangled with the exterior.
+
+By Lemma~\ref{lem:quantum-clock}, a violation in every
+root of \(\mathcal F_0\) requires failure of all its
+independent unconditioned tape tests, whatever boundary
+records arise. The sum is at most \(q_B^{|\mathcal F_0|}\),
+uniformly in \(\psi\) and references.
+The filtered map is
+\(X\mapsto\Tr_{\rm record}(V_m X V_R^\dagger)\).
+Partial trace has diamond norm one, and this sandwich
+has completely bounded trace norm at most
+\(\|V_m\|\|V_R\|\).
+Taking the square root proves the assertion.
+The one-leg probability law was used only for this
+squared-norm bound; no fictitious rejection record has
+been attached to a physical no-jump amplitude.
+\end{proof}
+
+\subsection{Mixed differences and joint diamond cost}
+
+\begin{proposition}[Superset bound with optional faults resummed]
+\label{prop:coherent-joint}
+For every \(b_*\in(0,1)\), one can choose \(B\), then a positive
+\(\epsilon_*\), and then a mesh bound, all independently of
+\(L,t\), so that for every admissible generator of strength
+at most \(\epsilon_*\), every sufficiently large \(L\), every
+finite read time, and every set \(K\) of real spacetime bins
+in its product approximant,
+\begin{equation}\label{eq:coherent-joint}
+ \|\mathcal E(K)\|_\diamond\le b_*^{|K|}.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Begin with \(m\) required bins in one slab. Retain a separated
+subfamily of size \(\ell\ge m/D_{\rm pack}\).
+For every other required bin expand its indicator as
+\(J_u=1-\mathrm{good}_u\), giving at most \(2^{m-\ell}\)
+signed terms. A chosen good indicator permanently deletes
+all labels meeting its \(W_z\) and imposes both ket passing
+implications. Delete the union of such labels when regions
+overlap; keep all passing masks. This accounts for every
+unselected required restriction.
+
+At a retained root its bad indicator has two disjoint
+alternatives: a tagged label touches its region, or no
+label touches it and its ket has an intrinsic violation.
+Partition the retained roots into \(\mathcal I\) of the
+former kind and \(\mathcal F_0\) of the latter.
+Permanently delete all labels touching the clean regions,
+including \(\mathcal F_0\), and impose their masks and the
+previous passing masks. No intrinsic mask is imposed at
+\(\mathcal I\).
+Scale every remaining label meeting \(W_i\), \(i\in\mathcal I\),
+by \(z_i\) as in Lemma~\ref{lem:label-interpolation}.
+The product of differences between \(z_i=1\) and \(z_i=0\)
+selects exactly the words having a tagged appearance at every
+such root: a missing variable cancels, while any positive
+power contributes \(1^a-0^a=1\).
+Both-leg tags on all anticommutator terms are retained.
+
+This difference can be evaluated with the masks fixed:
+on permanently protected regions their initial values and
+correction record determine them, independently of exterior
+Kraus records and of the remaining noise-word expansion.
+Equivalently fix those correction records and input syndrome
+projectors while taking the difference and sum them afterwards.
+
+Represent the mixed difference by the integral of the mixed
+derivative over \([0,1]^{|\mathcal I|}\).
+For a noise interval the exact Duhamel identity is
+\[
+ \partial_i e^{d\mathcal N(z)}
+ =\int_0^d e^{(d-s)\mathcal N(z)}
+       (\partial_i\mathcal N(z))e^{s\mathcal N(z)}\,\dd s .
+\]
+It follows by differentiating the exponential series or by
+variation of constants. Iterating distinct derivatives inserts
+each \(\partial_i\mathcal N\) exactly once, because
+\(\partial_i\partial_j\mathcal N=0\) for separated roots.
+All chronological placements are included, even within a
+single noise interval. For labeled insertion times their
+ordering simplices partition the product of
+\(|\mathcal I|\) copies of the union of noise intervals.
+That union has total duration at most \(T\) per variable,
+so the integration measure is at most \(T^{|\mathcal I|}\).
+The interpolation cube has volume one; correction gates
+between intervals use no noise-integration time.
+
+Expand each designated derivative into Pauli sandwiches.
+By \eqref{eq:derivative-cost} their absolute coefficient
+sum is at most \(4C_rV_B\epsilon\).
+Every remaining exact propagator is CPTP and acts off all
+permanently protected regions. The designated sandwiches
+also act off them, even when an extra passing region overlaps
+a dirty root, because its touching labels were deleted.
+For fixed insertion times and labels apply
+Lemma~\ref{lem:halo-filter}. The resulting partition norm is
+at most
+\[
+ (4C_rTV_B\epsilon)^{|\mathcal I|}
+                       q_B^{|\mathcal F_0|/2}.
+\]
+All optional fault words have already been resummed into
+CPTP propagators before norms are taken.
+There is no factor exponential in their spacetime volume.
+
+Sum the partitions and earlier signs. The one-slab norm
+is at most
+\[
+ 2^m(4C_rTV_B\epsilon+\sqrt{q_B})^\ell .
+\]
+Choose \(B\) large enough that
+\(\sqrt{q_B}\le(b_*/2)^{D_{\rm pack}}/2\), then
+\(\epsilon_*>0\) so that
+\(4C_rTV_B\epsilon_*\le(b_*/2)^{D_{\rm pack}}/2\).
+Choose the mesh small enough for the clock bound.
+Since \(D_{\rm pack}\ell\ge m\), this gives a bound
+\(2^m(b_*/2)^{D_{\rm pack}\ell}\le b_*^m\).
+
+For several slabs, the restricted maps compose in time
+order. Their independent left and right boundary syndrome
+resolutions are exactly those required in the following
+slab; their sum preserves all cross blocks.
+No record is shared between slabs except through the data
+operator. A slab with no requirement gives its original
+CPTP product. Diamond-norm submultiplicativity therefore
+gives \eqref{eq:coherent-joint}. The short terminal slab
+uses only visit masks and the same upper bounds.
+The order of choices leaves a strictly positive strength
+threshold independent of \(L,t\).
+\end{proof}
+
+\subsection{Walk extraction on the finite torus}
+
+Use the product metric \(\rho\) of \eqref{eq:productmetric}.
+A unit-step walk has successive sites at distance at most one.
+
+\begin{lemma}[A crossing yields a short walk through many distinct marks]
+\label{lem:coherent-walk}
+There are positive coarse constants \(a,C_0\), independent of
+\(B,L,t\), such that a fine ket history from the code with a
+syndrome component of diameter at least \(L/100\), in either
+sector at any physical or serialized stage, supplies \(k\ge aM\)
+distinct real bins with \(J_u=1\) and a unit-step walk of length
+at most \(C_0k\) visiting all those bins.
+\end{lemma}
+\begin{proof}
+For the chosen sector define the all-one comparisons and visit
+proxies by \eqref{eq:comparison}--\eqref{eq:proxy}, using the
+intrinsic marks \(J\).
+A good full bin has the five endpoint implications, so physical
+boundary occupation forces a comparison zero by induction.
+Every visit forces the corresponding proxy, including virtual
+noise stages. The partial final slab uses only this visit
+implication; its artificial endpoint bit need not describe
+the readout state.
+
+Take \(h=\lfloor M/[100(R+6)]\rfloor\), and initialize a comparison
+\(H_j\) at each \(a_j=jh\). Extend \(J\) by zero beyond the last
+real slab up to the final needed overlap.
+Require equality of \(H_j,H_{j+1}\) at \(a_{j+2}\), and absence
+of a spatially connected proxy set of diameter at least \(M/200\)
+at every date in that two-epoch window.
+If every test passes, comparison equality propagates across the
+seams exactly as in Lemma~\ref{lem:iteration}: at the beginning
+of epoch one it is identity, common maps propagate it, and the
+next overlap equality changes the recent comparison.
+Predecessor proxies agree on the same dates.
+A large physical or virtual component would give visited block
+diameter at least \(M/100-1\ge M/200\), a contradiction.
+
+Thus some deterministic window test fails.
+For an endpoint disagreement the older bit is zero and the newer
+one is one. Trace disagreeing predecessors back to the newer
+initialization date. This gives a path of older zeros, hence
+proxy sites, with temporal span \(h\) and steps at most \(R\).
+For a spatial test failure choose a connected spatial path
+reaching diameter \(M/200\).
+In either case the endpoints of a proxy path in a depth-\(2h\)
+window have distance
+\[
+ s\ge\min\{h,M/200\}.
+\]
+Only real marks can serve as sinks; the artificially appended
+future has none.
+
+For each proxy site, a direct mark is a one-sink certificate.
+Otherwise take its zero predecessor and its finite backward
+cone down to the all-one window bottom.
+Every time section lifts injectively, since \(4Rh<M/2\).
+Copy good maps, put constant-zero maps at marks and constant-one
+maps at the bottom and outside.
+The typed graph is finite, acyclic, and has nonempty predecessor
+sets \(A_s\) at every nonconstant node. Its root value is the
+maximal trajectory value.
+SST Theorem 22 and Definitions 17 and 21, with Eq.~(2.16),
+give a connected five-charge contour with distinct bad sinks,
+avoiding the constant-one cutoff \cite{SST}.
+The sink images remain distinct physical bins by the
+time-section injectivity.
+With \(n\) edges per charge and \(m\) sinks, the directly
+checked forms \eqref{eq:polar} give
+\(n\le(1+8R)(m-1)\), as in \eqref{eq:edges-sinks}
+and SST Lemmas 38 and 40.
+Thus no stochastic-independence assumption enters this step.
+
+The contour and the link to its proxy root have unit-step
+connecting length \(O_R(n+1)\), and all sinks lie in the
+closed ball of radius \(r_i=10(R+6)(n+1)\) about that root.
+This includes the bounded predecessor link when \(n=0\).
+Choose one ball per proxy-path site, and retain disjoint
+balls greedily in decreasing radius.
+Their triple enlargements cover the original path.
+A simple chain of retained centers connects its endpoint
+covers, with successive distances at most
+\(3r_i+3r_{i+1}+R\).
+As in Proposition~\ref{prop:path},
+\(s\le7\sum_i r_i\).
+
+Each ball supplies at least
+\((n+1)/(2+8R)\) distinct sinks. Different retained balls
+have disjoint physical sink sets, even when balls wrap.
+Writing \(k\) for their total number, it follows that
+\(\sum_i r_i\le C_Rk\), and hence \(k\ge aM\) for a
+positive fixed \(a\) at sufficiently large \(M\).
+Join successive centers by shortest unit-step paths and
+attach each contour's connecting graph.
+Its total number of edges is \(O_R(k)\).
+A spanning-tree tour traverses each edge at most twice
+and visits every distinct sink in at most \(C_0k\) steps.
+The walk may pass through unmarked bins; it is used to
+locate its distinct marked keys.
+All constants refer only to the fixed coarse geometry.
+\end{proof}
+
+\subsection{Dense subsets and the superset polynomial}
+
+Decrease \(a\) if necessary so \(a\le1\), and let \(S_0\) be the
+largest power of two not exceeding \(aM/2\).
+For large \(M\),
+\[
+ aM/4\le S_0\le aM/2.
+\]
+For dyadic integers \(1\le r'\le S_0\) put
+\begin{equation}\label{eq:density-function}
+ g(r')=\gamma\left(\sqrt{r'}+\frac{(r')^2}{S_0}\right),
+\end{equation}
+where the positive coarse constant \(\gamma\) is chosen below.
+Call a nonempty set \(W\) of bin keys dense if every \(u\in W\)
+has at least \(g(r')\) members of \(W\) in its
+\(\rho\)-ball of radius \(r'\), at every such dyadic scale.
+
+\begin{lemma}[Extraction at a linear top scale]\label{lem:dense-extraction}
+The marked keys of a crossing in Lemma~\ref{lem:coherent-walk}
+contain a dense subset, for a fixed \(\gamma>0\) independent
+of \(B,L,t\). Every dense set has at least \(\gamma S_0\)
+members.
+\end{lemma}
+\begin{proof}
+Place the \(k\) distinct keys at one chosen occurrence of each
+on its walk. Pad the list with empty slots to a power-of-two
+length \(n\), so \(k\le n\le C_1k\) with fixed \(C_1\).
+At the dyadic scales \(r'=1,2,\ldots,S_0\), in increasing order,
+discard every currently selected key in each aligned slot
+interval of length \(r'\) having fewer than \(g(r')\) keys.
+The number discarded at that scale is at most
+\((n/r')g(r')\), and
+\[
+ \sum_{\substack{r'\le S_0\\r'\ {\rm dyadic}}}
+                 \frac{g(r')}{r'}
+ \le\gamma\left(\frac{1}{1-2^{-1/2}}+2\right).
+\]
+Choose \(\gamma\) small enough that \(C_1\) times this bound
+is at most \(1/2\).
+At least \(k/2\) keys survive.
+
+For a surviving key its \(r'\)-interval retained at least
+\(g(r')\) keys at that pass. Every subsequent larger dyadic
+interval either misses this interval or contains it.
+Deleting a containing parent would delete the surviving key
+as well, so none of those retained keys can later be removed.
+Walk times in the interval differ by less than \(r'\),
+so their actual key locations have distance at most \(r'\).
+Padding added no keys. The final set is therefore dense.
+At the top scale a dense set has at least
+\(g(S_0)\ge\gamma S_0\) members, proving the last assertion.
+\end{proof}
+
+Let \(\mathcal U\) be the \(M^4\) spatial blocks times the real
+slabs up to readout, and \(N_w=|\mathcal U|\ge1\).
+Define \(f(S)=1\) when \(S\subseteq\mathcal U\) contains
+some dense subset, and zero otherwise. This enlarged
+indicator may also select correctable histories.
+
+\begin{lemma}[Superset polynomial and dense-set count]
+\label{lem:dense-count}
+For
+\begin{equation}\label{eq:mobius}
+ a_K=\sum_{S\subseteq K}(-1)^{|K|-|S|}f(S)
+\end{equation}
+one has \(f(S)=\sum_{K\subseteq S}a_K\),
+\(a_\varnothing=0\), and \(|a_K|\le2^{|K|}\).
+Every \(K\) with nonzero coefficient is dense.
+The number of dense sets of size \(m\) is at most
+\begin{equation}\label{eq:dense-count}
+ \exp\left(C_2m+C_3\frac{m}{S_0}\log(2N_w)\right),
+\end{equation}
+where \(C_2,C_3\) depend only on coarse geometry.
+\end{lemma}
+\begin{proof}
+Interchanging the finite subset sums proves inversion:
+the coefficient of \(f(T)\) in \(\sum_{K\subseteq S}a_K\)
+is \(\sum_{T\subseteq K\subseteq S}(-1)^{|K|-|T|}\),
+which is one for \(T=S\) and zero otherwise.
+The elementary bounds and empty coefficient follow.
+
+If a point \(u\in K\) belongs to no dense subset of \(K\),
+then adding or deleting \(u\) from any subset has no
+effect on \(f\). Pair those two subsets in
+\eqref{eq:mobius}; their contributions cancel.
+Thus a nonzero coefficient requires every point of \(K\)
+to belong to a dense subset of \(K\).
+Their union, equal to \(K\), is dense: at each point
+one of its dense subsets supplies all the required
+neighbours. This proves the support assertion.
+
+For counting, cut the circular spatial coordinates at the
+fixed origin, and use aligned dyadic cubes in four spatial
+coordinates and one time coordinate, clipped at domain ends.
+In each occupied side-\(r'\) cube select a representative
+in \(K\). Its radius-\(r'\) ball contains at least \(g(r')\)
+keys. A fixed key lies in such balls from at most a fixed
+number of cubes, since a radius-\(r'\) coordinate interval
+meets only boundedly many aligned side-\(r'\) intervals,
+also across the periodic seam. Double counting shows that
+the number of occupied cubes at this scale is at most
+\(C m/g(r')\).
+
+At top scale \(S_0\) at most \(N_w\) cubes can be occupied.
+Choosing up to \(Cm/g(S_0)\) roots costs at most
+\((2N_w)^{C'm/S_0}\), enlarging the constant for rounding;
+a nonempty dense set already has \(m\ge\gamma S_0\).
+For each occupied nonunit cube specify the subset of its
+32 children that are occupied. These masks specify the
+unit keys exactly.
+The total number of such decisions is \(O(m)\), since
+\[
+ \sum_{\substack{r'\le S_0\\r'\ {\rm dyadic}}}
+        \frac{1}{g(r')}
+ \le\gamma^{-1}\sum_{j\ge0}2^{-j/2}<\infty .
+\]
+Their choices therefore cost \(e^{C_2m}\).
+Combining with the root choices gives
+\eqref{eq:dense-count}.
+This counts arbitrary dense unions, including unions
+of overlapping witnesses from different epochs.
+\end{proof}
+
+\begin{proposition}[Summed bad map without a volume-time loss]
+\label{prop:general-sum}
+There are fixed \(b_*,B,\epsilon_*>0\), chosen in that order,
+such that for \(0<t\le e^M\) and sufficiently fine mesh,
+the product-channel maps satisfy
+\begin{equation}\label{eq:general-bad-map}
+ \left\|\sum_S f(S)\Phi_S\right\|_\diamond
+ \le 2e^{-\gamma S_0\log2}.
+\end{equation}
+The constants are uniform in the admissible generator and read time.
+\end{proposition}
+\begin{proof}
+The subset inversion and definition \eqref{eq:coherent-superset}
+give the exact finite identity
+\[
+ \sum_S f(S)\Phi_S=\sum_K a_K\mathcal E(K).
+\]
+For \(0<t\le e^M\),
+\(N_w=M^4\lceil t/T\rceil\) has
+\(\log(2N_w)\le C_4M\) for all large \(M\), with \(C_4\)
+independent of \(B\), since \(T\ge1\).
+Together with \(S_0\ge aM/4\),
+Lemma~\ref{lem:dense-count} bounds the number of nonzero
+coefficient supports of size \(m\) by \(e^{C_5m}\), with
+\(C_5\) independent of \(B\).
+Choose \(b_*>0\) so \(2b_*e^{C_5}\le1/2\).
+Proposition~\ref{prop:coherent-joint} then chooses \(B\),
+the noise strength threshold, and the mesh bound.
+Only dense supports occur and \(m\ge\lceil\gamma S_0\rceil\),
+so the triangle inequality gives
+\[
+ \left\|\sum_K a_K\mathcal E(K)\right\|_\diamond
+ \le\sum_{m\ge\lceil\gamma S_0\rceil}
+                    (2b_*e^{C_5})^m
+ \le2e^{-\gamma S_0\log2}.
+\]
+No unmeasured support indicator has been assigned a physical
+probability, and no factor proportional to the number of
+possible locations or observation dates was introduced.
+\end{proof}
+
+\subsection{Linear readout and passage to the exact semigroup}
+
+\begin{proof}[Proof of Theorem~\ref{thm:general}]
+Use the fixed decoder of Section~\ref{sec:decoder}.
+Its small-component branch fills every cycle inside its
+embedded coordinate box. Across a single-face flip,
+Lemma~\ref{lem:homology} makes
+\(p+D(s)+D(s+\partial p)\) a boundary whenever both
+syndromes have only components of diameter less than \(L/100\).
+This holds for all merges and splits and in both sectors.
+
+Consider a fine ket history whose exact bad set \(S\)
+has \(f(S)=0\).
+The contrapositive of Lemmas~\ref{lem:coherent-walk}
+and \ref{lem:dense-extraction} excludes a large
+component at every stage in either sector.
+Serialize each inserted Pauli on the ket into its
+single-face factors. Every intermediate stage was
+included in the intrinsic visit test.
+Correction jumps are themselves single-face flips;
+no-jumps multiply the definite syndrome leg by a scalar.
+Thus both filled homology classes stay zero from
+the encoded start. After applying the decoder the
+ket is the original logical ket, including its
+reference, up to its scalar. Phases are absorbed
+into that scalar.
+
+This implication is applied to a linear cross term,
+not to a classical mixture. At code input the
+left and right syndrome projectors evaluate on
+their respective Pauli-translated legs.
+In the final measurement branch of the ket's
+syndrome, a different bra syndrome vanishes.
+If the bra syndrome matches, that bra can be
+arbitrary, but the decoded ket is still in the
+original logical ray.
+For the pure target \(|\Psi\rangle\), put
+\(Q_\Psi=I-|\Psi\rangle\langle\Psi|\) on the
+logical output and reference.
+Every such decoded cross term has zero expectation
+against \(Q_\Psi\), because \(Q_\Psi\) annihilates
+its ket. No bra diagonality or independence is
+required.
+
+The full product channel is trace preserving, so
+its decoded infidelity is its expectation of
+\(Q_\Psi\). The preceding exact vanishing gives
+the equality of linear functionals
+\[
+ 1-F_\Psi=
+ \Tr\left[Q_\Psi\,
+  (\mathcal R^{(6)}\otimes\id)
+  \left(\sum_S f(S)\Phi_S\otimes\id\right)
+  (\rho_{\Psi,{\rm enc}})\right],
+\]
+where \(\mathcal R^{(6)}\) is the physical
+syndrome decoder returning all six logical qubits
+and \(\rho_{\Psi,{\rm enc}}\) is the encoded
+pure input. Its absolute value is at most the
+diamond norm in \eqref{eq:general-bad-map}:
+the input has trace norm one, the readout is
+CPTP, and \(\|Q_\Psi\|\le1\).
+Take this equality before the norm; all coherent
+cross terms and the unrestricted bra normalization
+have already been retained.
+
+Consequently, for \(0<t\le e^M\),
+\[
+ 1-F_\Psi\le2e^{-\beta M},\qquad
+                  \beta=\gamma a\log2/4 .
+\]
+For each fixed \(L,t\), send the mesh to zero.
+Lemma~\ref{lem:product-general} and continuity of
+the readout and expectation give the same bound
+for the exact \(e^{t(\mathcal A+\mathcal N)}\).
+This takes a finite-system product limit, with
+all preceding estimates uniform in its mesh.
+
+Once \(B\) is fixed, \(M\ge L/(2B)\) for large \(L\).
+Choose \(c\le\min\{1,\beta\}/(2B)\).
+Then \(t\le e^{cL}\) implies \(t\le e^M\), and
+\(2e^{-\beta M}\le2e^{-cL}\).
+At zero recovery is exact; enlarging \(C\)
+gives the stated uniform bound.
+The choices were: coarse walk and density
+constants, then \(b_*\), then \(B\), then
+\(\epsilon_*(r)\), then mesh, with \(L_0\)
+chosen after the fixed geometric parameters.
+There is no dependence on the logical input
+or reference dimension.
+
+For a designated qubit and fixed unused logical
+state, purify that state into an additional
+untouched reference and apply the all-six-qubit
+bound. After discarding unused outputs,
+the projector onto the designated pure target
+contains the full target projector, so its overlap
+cannot decrease.
+This proves the designated-qubit and reference
+claims with the same syndrome-only decoder.
+\end{proof}

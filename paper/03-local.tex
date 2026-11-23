@@ -1,0 +1,297 @@
+\section{Local estimates without synchronized updates}\label{sec:local}
+
+We work in one sector. Every correction ring toggles the boundary of
+one plaquette, conditionally on its two incoming edges, and a sector
+noise mark toggles the same boundary without a test. Write a vertex
+as occupied when it is incident to at least one marked edge. The
+following deterministic facts refer to the actual sequence of rings.
+
+\subsection{Confinement and a clearance schedule}
+
+\begin{lemma}[Geometric confinement]\label{lem:confinement}
+For a finite marked edge set on \(\Z^4\) evolving with no noise under
+any sequence of upper-corner correction attempts, the coordinate box
+of occupied vertices cannot enlarge and their maximum height cannot
+increase. Each vertex degree modulo two is preserved. The confinement
+assertions hold even if the starting degrees are odd.
+\end{lemma}
+\begin{proof}
+An enabled face at \(v\) has its tested edges present. Consequently
+\(v,v-e_i,v-e_j\) are already occupied. The remaining corner
+\(v-e_i-e_j\) lies in their coordinate box and has smaller height than
+\(v\). All vertices on potentially new edges are therefore in the
+existing box and below or at its maximum height. Toggling a plaquette
+boundary changes the degree of each of its four vertices by an even
+integer modulo two. Induction over the attempts proves every
+assertion. Ineffective attempts change nothing.
+\end{proof}
+
+Fix an integer \(H\) and a vertex \(x\) with
+\(\operatorname{ht}(x)\le H\). The northeast scheduling cone is
+\[
+ \mathcal C(x,H)=\{x+a:a\in\Z_{\ge0}^4,\
+                         \operatorname{ht}(x+a)\le H\}.
+\]
+At each vertex \(v\), let \(F_v(s)\) be the time of completion of the
+following subsequence of its actual clocks after time \(s\): wait for
+the six pairs \(i<j\) in lexicographic order, and repeat that list.
+Other rings, including rings of these clocks while waiting for a
+different pair, are allowed. For a fixed realization each next-ring
+function, and hence \(F_v\), is nondecreasing.
+
+Set \(S(v)=0\) above height \(H\), and recursively set
+\begin{equation}\label{eq:schedule}
+ S(v)=F_v\left(\max_{1\le i\le4}S(v+e_i)\right)
+       \qquad(v\in\mathcal C(x,H)).
+\end{equation}
+Times here are measured relative to the beginning of a clean interval.
+
+\begin{lemma}[Poisson clearance]\label{lem:clearance}
+Suppose a clean process has initial maximum occupied height at most
+\(H\), even degree at every vertex of \(\mathcal C(x,H)\), and all
+faces incident to that cone available for correction. This includes
+a finite cut if the cone and its incident faces lie in its interior.
+After time \(S(x)\), the vertex \(x\) has no incident marked edges,
+permanently. With independent rate-one clocks and
+\(m=H-\operatorname{ht}(x)+1\),
+\begin{equation}\label{eq:clearance-tail}
+ \Prb\{S(x)>t\}\le
+ 4^m2^{12m}e^{-t/2}\qquad(t\ge0).
+\end{equation}
+The event \(S(x)\le t\) reads only the clocks up to \(t\).
+\end{lemma}
+\begin{proof}
+An incoming edge at a vertex above height \(H\) is always absent by
+Lemma~\ref{lem:confinement}. Suppose the four vertices \(v+e_i\)
+have permanently lost their incoming edges by time \(s\). The four
+outgoing edges from \(v\) are then absent. An incoming edge at \(v\)
+can be affected only by a face with upper corner \(v\), or one of
+those four upper neighbours. A face based at an upper neighbour
+cannot subsequently be enabled, because its incoming edges are
+absent.
+
+The number of incoming marked edges at \(v\) is now even by parity.
+Every enabled face based at \(v\) removes two such edges; none can
+create an incoming edge there. In one full pass through the six
+pairs, any fixed remaining pair either rings while still present,
+or some removal has already happened. Thus a pass removes at least
+two whenever at least two remain. There are at most four incoming
+edges. Two passes remove them all. Thereafter no tested pair can
+be enabled at \(v\), and the upper neighbours cannot recreate an
+incoming edge. Descending induction on height proves the deterministic
+claim using \eqref{eq:schedule}. Boundary parity in a cut is unnecessary
+away from the indicated cone.
+
+For the probability bound, monotonicity of \(F_v\) implies
+\(F_v(\max_i s_i)=\max_iF_v(s_i)\). Expanding
+\eqref{eq:schedule} therefore expresses \(S(x)\) as the maximum of
+serial completions along northeast paths of \(m\) vertices, read from
+the largest height downwards. There are at most \(4^m\) such paths.
+Along any specified path the upper vertices are distinct. Its serial
+completion time is a sum of \(12m\) independent rate-one exponentials.
+Indeed the start time for the clocks at each successive vertex depends
+only on clocks at distinct earlier vertices, and the next waiting
+times at that vertex have the exponential law by independent increments
+and the strong Markov property. For a rate-one exponential \(W\),
+\(\E e^{W/2}=2\). The exponential Markov inequality followed by a path
+union bound gives \eqref{eq:clearance-tail}.
+
+Finally the recursive test for completion by \(t\) either finds all
+required subsequence rings by \(t\), or fails to do so. It never needs
+to inspect a ring after \(t\). This proves its measurability.
+\end{proof}
+
+\begin{corollary}[An isolated finite syndrome]\label{cor:island}
+An even syndrome initially confined to an integer box of maximum
+coordinate side length \(d\), with no noise, becomes empty by time
+\(t\) except with probability at most
+\[
+ \min\{1,(d+1)^4(4\cdot2^{12})^{4d+1}e^{-t/2}\}.
+\]
+Every correction stays in that box. If the initial error chain is
+supported in the box, its final closed residual is a boundary.
+The same assertions hold for a torus box whose one-cell collar lifts
+injectively, with independent torus clocks restricted to that box.
+\end{corollary}
+\begin{proof}
+Choose \(H\) to be the initial maximum height. For any vertex in the
+box, \(H-\operatorname{ht}(x)\le4d\). Apply
+Lemma~\ref{lem:clearance} and sum over its at most \((d+1)^4\)
+vertices. Confinement gives the support assertion. A closed 2-chain
+in a cubical box bounds there; an explicit chain contraction is
+provided in Section~\ref{sec:decoder}.
+
+For the torus assertion transfer the clocks in the box and its collar
+to its integer lift, and add independent clocks outside that collar.
+Confinement makes every enabled face stay inside the original box,
+so projection of this infinite-lattice construction agrees with the
+confined torus trajectory. The auxiliary scheduling cone may extend
+beyond one period. Its additional clocks are independent extension
+clocks, rather than repeated torus clocks. The estimate thus uses
+distinct independent vertices along each path and remains valid.
+\end{proof}
+
+The last distinction is useful for isolated components but will not
+justify arbitrarily deep lifts of interacting torus histories. The
+short-window construction below is what guarantees distinct physical
+defects in a contour.
+
+\subsection{Spatial blocks and the local test}
+
+Fix an integer \(B\ge10\). For \(L\) sufficiently large define
+\begin{equation}\label{eq:block-parameters}
+ M=\lfloor L/B\rfloor,\quad b=L/M,\quad
+ T=1000B,\quad m_f=1000T,\quad R=2000100.
+\end{equation}
+The coarse lattice is \(\Z_M^4\). In a consistent lift its blocks are
+\[
+ Q_z=\{v\in\Z^4:bz_i\le v_i<b(z_i+1),\quad1\le i\le4\}.
+\]
+Here \(B\le b<2B\). Translation by \(M\) in a block coordinate translates
+the physical coordinate by exactly \(L\). Throughout this section
+assume \(M>10(R+5)\). A bin \((z,k)\) refers to the physical slab
+\(I_k=((k-1)T,kT]\). Lift the blocks with
+\(\|d\|_\infty\le R\) relative to \(z\), and let
+\[
+ U_z=\bigcup_{\|d\|_\infty\le R}Q_{z+d}.
+\]
+To compare with the device, retain the initial syndrome edges whose
+two endpoints lie in \(U_z\), delete the other edges, and run the
+clean dynamics using only faces entirely in \(U_z\). Its clocks are
+the physical clocks of these faces.
+
+\begin{definition}[Bad bin]\label{def:bad}
+The indicator \(\Bad(z,k)\) equals zero when all three conditions below
+hold, and equals one otherwise:
+\begin{enumerate}
+\item No sector noise mark in \(I_k\) occurs on a face with any vertex
+in \(U_z\).
+\item There is no strictly chronological sequence of \(m_f\) correction
+rings on successively vertex-intersecting faces, ending on a face
+within physical sup distance two of \(Q_z\). Count such sequences
+in the lifted neighbourhood of \(Q_z\).
+\item For
+\(H_z=\lfloor b(z_1+z_2+z_3+z_4+4)\rfloor\), every \(x\in Q_z\)
+has \(S(x)\le T\), with the schedule of
+\eqref{eq:schedule} started at the beginning of \(I_k\).
+\end{enumerate}
+\end{definition}
+
+Each sequence in condition 2 lies within distance \(m_f+4\) of
+\(Q_z\), and hence in \(U_z\). Each cone in condition 3 has depth
+at most \(8B+2\), and its incident faces are interior to \(U_z\).
+These tests depend solely on marks, not on the starting syndrome.
+
+\begin{lemma}[Probability and range of dependence]\label{lem:bad-prob}
+For every \(q>0\) there exist an integer \(B\ge10\) and
+\(\eta_0>0\), independent of \(L\), such that for every allowed set of
+rates bounded by \(\eta_0\), all \(z,k\), and all past histories up to
+\((k-1)T\),
+\[
+ \Prb(\Bad(z,k)=1\mid\text{past})\le q.
+\]
+The test reads only face processes anchored in blocks at coarse
+distance at most \(R+3\) from \(z\), during \(I_k\).
+Disjoint sets of such basic increments are independent.
+\end{lemma}
+\begin{proof}
+There are at most \(C_RB^4\) faces incident to \(U_z\). The sector
+noise rate per face is at most \(2\eta\), so condition 1 fails with
+probability at most \(2\eta C_RB^4T\).
+
+A vertex of the four-dimensional cubical lattice is incident to
+\(4\binom42=24\) faces. A face has four vertices, and so meets at
+most 96 faces at vertices, including itself. There are at most
+\(CB^4\) choices of a terminal face in condition 2. For each specified
+list of \(m_f\) face labels, the expected number of ordered ring
+tuples in a slab is \(T^{m_f}/m_f!\). This follows by integrating
+the rate-one product intensity over the time simplex. If a face
+label repeats, the factorial moment measure of its Poisson process
+gives the same expression; ordered tuples use distinct times.
+Consequently condition 2 fails with probability at most
+\[
+ CB^4\,\frac{(96T)^{m_f}}{m_f!}
+ \le CB^4(96eT/m_f)^{m_f}.
+\]
+There are at most \((2B+1)^4\) target vertices in condition 3.
+Lemma~\ref{lem:clearance} bounds its failure probability by
+\[
+ (2B+1)^4(4\cdot2^{12})^{8B+2}e^{-T/2}.
+\]
+Combining these estimates gives
+\begin{equation}\label{eq:bad-cost}
+ q_B(\eta):=2\eta C_RB^4T+
+ CB^4(96e/1000)^{1000T}
+ +(2B+1)^4(4\cdot2^{12})^{8B+2}e^{-T/2}.
+\end{equation}
+The last two terms tend to zero as \(B\) tends to infinity:
+\(96e/1000<1\), and
+\(8\log(4\cdot2^{12})-500<0\).
+Choose \(B\) to make their sum at most \(q/2\), and then choose a
+strictly positive \(\eta_0\) to make the noise term at most \(q/2\).
+
+The face anchors needed for the three tests are in the stated
+\(R+3\) block neighbourhood. All tests use increments within \(I_k\).
+Those increments are independent of the entire past, even if the
+initial syndrome was selected from it. The conditional assertion and
+the independence statement follow.
+\end{proof}
+
+\subsection{Five predecessor regions}
+
+Let
+\begin{equation}\label{eq:regions}
+ \begin{split}
+ \Delta&=\{d\in\Z^4:\|d\|_\infty\le R\},\\
+ A_i&=\{d\in\Delta:d_i\le0\}\quad(1\le i\le4),\\
+ A_5&=\{d\in\Delta:d_1+d_2+d_3+d_4\ge1\}.
+ \end{split}
+\end{equation}
+All five sets are nonempty and \(\bigcup_s A_s=\Delta\).
+
+\begin{lemma}[Uniform predecessor implications]\label{lem:predecessor}
+For every even starting syndrome and every realization with
+\(\Bad(z,k)=0\), occupation of \(Q_z\) at time \(kT\) implies, for
+each \(s=1,\ldots,5\), occupation at time \((k-1)T\) of some block
+\(Q_{z+d}\) with \(d\in A_s\). Occupation of \(Q_z\) at any instant of
+\(I_k\) implies occupation of some block of \(U_z\) at its start.
+\end{lemma}
+\begin{proof}
+We justify agreement of the clean cut and the physical trajectory
+near \(Q_z\) for the entire slab. Trace backwards any differing
+incident edge. An interior correction ring can create a difference
+only if a tested edge or the old output edge already differed.
+Thus a discrepancy arriving from the cut boundary gives a
+chronological chain of vertex-intersecting faces from that boundary
+to a face within two of \(Q_z\). Initial interior edges agree, and
+condition 1 excludes all relevant interior noise. In terms of upper
+face anchors, consecutive intersecting faces differ by at most one
+in each coordinate. Endpoint allowances are bounded by a fixed
+number of cells. The cut boundary is at distance at least \(RB-2\),
+which exceeds \(m_f+5\). Its final \(m_f\) interior rings would
+contradict condition 2. This argument applies to a discrepancy at
+any time of the slab. There are almost surely finitely many rings
+on the finite torus in bounded time.
+
+If no initial block with offset in \(A_i\) is occupied, every retained
+marked endpoint has \(i\)th coordinate at least \(b(z_i+1)\).
+Confinement prevents an endpoint from entering \(Q_z\), for the whole
+slab. If no initial block in \(A_5\) is occupied, each retained
+endpoint \(v\) satisfies
+\[
+ \operatorname{ht}(v)<b(z_1+z_2+z_3+z_4+4).
+\]
+Thus its maximum height is at most \(H_z\). All vertices of the
+scheduling cones retain even initial degree, because they are
+interior and no incident edge was deleted there. Condition 3 and
+Lemma~\ref{lem:clearance} clear the target vertices by the slab end.
+Finally, if \(U_z\) was initially empty, the clean cut stays empty
+throughout the slab. Agreement with the physical trajectory proves
+the two implications by contraposition.
+\end{proof}
+
+The monotonicity facts used here concern coordinate extrema, height
+and the clock-completion functions. They require no ordering of
+syndromes under inclusion and no synchronized correction rounds.
+The bins are observations of the original marks; no part of the
+generator is scheduled or reset at their boundaries.

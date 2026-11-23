@@ -1,0 +1,346 @@
+\section{A monotone comparison and localized contours}\label{sec:contours}
+
+\subsection{The auxiliary field and the slab proxy}
+
+For a deterministic slab index \(a\ge0\), initialize
+\(\Comp^a(z,a)=1\) at every coarse site. For \(k>a\) use the same
+physical bad-bin indicators to define
+\begin{equation}\label{eq:comparison}
+ \Comp^a(z,k)=
+ \begin{cases}
+ 0,&\Bad(z,k)=1,\\
+ \displaystyle\max_{1\le s\le5}\min_{d\in A_s}
+                     \Comp^a(z+d,k-1),&\Bad(z,k)=0.
+ \end{cases}
+\end{equation}
+A one denotes a healthy comparison bit. This map is monotone in its
+arguments. Also introduce the event, identified with its indicator,
+\begin{equation}\label{eq:proxy}
+ \Proxy^a(z,k)=
+ \{\Bad(z,k)=1\}\ \cup\
+ \{\Comp^a(z+d,k-1)=0\text{ for some }d\in\Delta\}.
+\end{equation}
+Every zero of \(\Comp^a(z,k)\) belongs to \(\Proxy^a(z,k)\).
+For the physically empty initial syndrome,
+Lemma~\ref{lem:predecessor} gives by induction
+\begin{equation}\label{eq:domination}
+ \begin{split}
+ Q_z\text{ occupied at }kT&\ \Longrightarrow\
+                         \Comp^0(z,k)=0,\\
+ Q_z\text{ visited in }I_k&\ \Longrightarrow\
+                         \Proxy^0(z,k).
+ \end{split}
+\end{equation}
+For the induction, an occupied endpoint of a good bin has an occupied
+predecessor in each \(A_s\). Each of those bits is zero, so every
+minimum in \eqref{eq:comparison} is zero. For the whole-slab assertion,
+the additional implication in Lemma~\ref{lem:predecessor} supplies at
+least one occupied predecessor in \(\Delta\). A bad bin belongs to
+the proxy without any predecessor requirement.
+
+We use the product metric
+\begin{equation}\label{eq:productmetric}
+ \rho((z,k),(y,\ell))=\max\{\dist_\infty(z,y),|k-\ell|\}
+\end{equation}
+on \(\Z_M^4\times\Z\), with periodic spatial distance. On
+\(\Z^4\times\Z\), use the ordinary spatial sup distance. A spacetime
+path has consecutive distinct sites at \(\rho\)-distance at most
+\(R\). A window has dates \(a+1,\ldots,a+D_w\), where on the torus
+\begin{equation}\label{eq:short-window}
+ 2RD_w<M/2.
+\end{equation}
+On the infinite lattice any finite depth is permitted.
+
+\subsection{The deterministic contour input}
+
+We specify the imported combinatorial input so that its use is
+separate from all probabilistic assumptions. Swart--Szab\'o--Toninelli
+\cite[Definitions 15--21 and Theorem 22]{SST} work with a countable
+typed dependence graph. A vertex carries a constant-zero,
+constant-one, or nonconstant monotone map. At a nonconstant vertex
+there is a finite nonempty set of outgoing predecessors of each
+charge. The associated map is the maximum, over charges, of the
+minimum of the predecessor values for that charge. Constants have
+no outgoing dependence edges. Their Theorem 22 states that a zero
+of the maximal trajectory has a rooted connected Toom contour.
+
+For clarity, the relevant contour structure consists of sources,
+sinks and internal vertices carrying one of \(\sigma\) charges.
+A source emits one edge of every charge and has no incoming edges;
+a sink receives one of each and has no outgoing edges; an internal
+vertex has one incoming and one outgoing edge of its charge.
+The root is a distinguished source. The zero-edge contour consists
+of a single vertex serving as source and sink. An embedding has
+distinct sink images, also distinct from all other vertex images,
+and distinct images of internal vertices of a given charge, counting
+the root with those internal vertices. These are the injectivity
+conditions of their Definition 17.
+
+In a present contour the sinks are constant-zero sites and all other
+vertices are nonconstant sites. Edges leaving the root or an
+internal vertex follow the allowed predecessors of their own charge.
+An edge leaving another source may follow a predecessor of any
+charge. These are the properties of their Definition 21 and
+Eq.~(2.16) that we need. No probability assumption occurs in the
+contour implication.
+
+In our application a nonconstant vertex at \((z,k)\) has type-\(s\)
+predecessors \((z+d,k-1)\), \(d\in A_s\). All these sets are finite
+and nonempty, as required by Definition 20 of \cite{SST}. A bad bin
+is constant zero. To use a clean boundary, truncate a root's backward
+dependency cone at date \(a\), copy the actual maps inside it, and
+put constant-one maps at date \(a\) and everywhere outside, including
+the future. This finite acyclic recursion has a unique trajectory
+at the root; in particular it agrees there with the maximal
+trajectory in Theorem 22. Backward induction on the dates identifies
+that value with the root of \eqref{eq:comparison}.
+
+For a torus root, lift this finite cone to \(\Z^4\times\Z\).
+A section at a fixed date has coordinate widths at most \(2RD_w\).
+Condition~\eqref{eq:short-window} makes projection injective on that
+section. Thus distinct lifted sinks at the same date are distinct
+physical bins. At distinct dates, bins already have disjoint time
+indices. Constant-one cutoff sites cannot be contour vertices, so
+every sink is a distinct actual failed test inside the cone. On
+the infinite lattice the finite cone needs no lift.
+
+\subsection{Five charges, edge count and dependent sinks}
+
+Use the spatial linear forms of Ahn \cite[Eq.~(7.17)]{Ahn}:
+\begin{equation}\label{eq:polar}
+ \ell_i(d)=-d_i\quad(1\le i\le4),\qquad
+ \ell_5(d)=d_1+d_2+d_3+d_4.
+\end{equation}
+Their sum is identically zero, and for \(d\in A_s\),
+\[
+ \ell_s(d)\ge\varepsilon_s,\qquad
+       (\varepsilon_1,\ldots,\varepsilon_5)=(0,0,0,0,1).
+\]
+For any \(d\in\Delta\) the respective losses are at most
+\(R,R,R,R,4R\). All contour edges change time by \(-1\).
+This checks the step restrictions in \cite[Eq.~(5.7)]{SST}, with
+five charges and positive aggregate advance
+\(\sum_s\varepsilon_s=1\).
+
+Let a contour have \(m\) sinks. The number of sources is also \(m\),
+by counting the net flux of any one charge. By
+\cite[Lemma 38, Eq.~(5.12)]{SST}, there are equally many edges of every
+charge; denote their common number by \(n\).
+This equality also follows directly by summing time differences
+along the paths of each charge from sources to sinks. Each edge
+has time difference \(-1\), while the endpoint sum is the same for
+each charge.
+
+For each charge, \(m-1\) edges leave non-root sources. The other
+\(n-m+1\) edges have their prescribed type. Sum
+\(\ell_s(\psi(w)-\psi(v))\) over all charged edges \((v,w)\) of charge
+\(s\), and over \(s\). Internal contributions cancel; the sum at
+each source or sink vanishes by \(\sum_s\ell_s=0\). The total is
+therefore zero. The lower bounds on increments give
+\[
+ 0\ge (n-m+1)-8R(m-1).
+\]
+Thus, with \(\alpha=1+8R\),
+\begin{equation}\label{eq:edges-sinks}
+ n\le\alpha(m-1),\qquad m\ge1+n/\alpha .
+\end{equation}
+This is the specialization of \cite[Lemma 40]{SST}; the calculation
+checks its polar-function hypotheses directly.
+
+For the contour enumeration we use the version
+arXiv:2202.10999v3 of \cite{SST}. With \(\sigma=5\) and
+\(\tau=\lceil\sigma/2\rceil=3\), Lemma 39, Eq.~(5.15), states
+\(N_n\le n^2 4^{6n}|\Delta|^{5n}\). The sharper odd-charge estimate
+in the \emph{proof} of that lemma, Eq.~(5.28), gives
+\begin{equation}\label{eq:contour-count}
+ N_n\le n^2 4^{6n-1}|\Delta|^{5n}\quad(n\ge1),\qquad N_0=1.
+\end{equation}
+Here \(N_n\) counts rooted embeddings up to their equivalence of
+Definition 19, subject to the step restrictions just verified.
+Duplicating the last charge in the proof produces six traversals
+per \(n\), but records the duplicated spatial choices once.
+The factor \(4^{6n-1}\) is consequently a proof estimate, not the
+bound stated in the published Lemma 39. Either estimate is
+exponential in \(n\) and would suffice below. Restriction to a
+deterministic finite cone can only reduce this count.
+
+Dependence of the bad-bin field is handled without importing an
+independent-defect stability theorem. Put
+\begin{equation}\label{eq:dependence-divisor}
+ D_{\mathrm{dep}}=(4(R+3)+1)^4.
+\end{equation}
+For any specified set of \(m\) distinct physical bins, join two
+when they have the same date and spatial distance at most
+\(2(R+3)\). Its maximum degree is at most \(D_{\mathrm{dep}}-1\).
+Greedy selection gives at least \(m/D_{\mathrm{dep}}\) bins with disjoint
+underlying increments. Lemma~\ref{lem:bad-prob} and independence
+therefore imply
+\begin{equation}\label{eq:joint-sinks}
+ \Prb\{\text{all specified bins are bad}\}\le q^{m/D_{\mathrm{dep}}}.
+\end{equation}
+Distinct dates give disjoint Poisson intervals even at the same
+spatial anchor. For equal dates, the selection ensures disjoint
+spatial supports. This is where distinct physical sink indices,
+rather than distinct vertices only on a covering lattice, matter.
+
+\subsection{Localized spacetime certificates}
+
+\begin{proposition}[Certificate with adjustable cost]\label{prop:witness}
+For every \(A>0\) one can choose \(q,B,\eta_0>0\) in the order of
+Lemma~\ref{lem:bad-prob}, independent of \(L,a,D_w\), with the
+following property. For each site \(b_0=(z,k)\) in a window satisfying
+\eqref{eq:short-window}, there are events
+\(\mathcal E^a(b_0,r)\), \(r\in\Z_{\ge1}\), such that
+\begin{equation}\label{eq:witness-cover}
+ \Proxy^a(z,k)\ \Longrightarrow\
+       \bigcup_{r\ge1}\mathcal E^a(b_0,r),\qquad
+ \Prb(\mathcal E^a(b_0,r))\le e^{-Ar}.
+\end{equation}
+Each event reads only basic Poisson increments whose pair
+(anchor block, slab index) lies in the closed \(\rho\)-ball
+\(\Ball_\rho(b_0,r)\). The assertions hold on \(\Z^4\) at every
+finite depth, with the same constants. They also hold conditionally
+on the entire physical history up to \(aT\).
+\end{proposition}
+\begin{proof}
+If the current bin is bad, use its single failed test. Otherwise a
+zero predecessor \((y,k-1)\), with \(\dist_\infty(y,z)\le R\),
+is supplied by \eqref{eq:proxy}. When \(k-1=a\) there is no such
+zero. At larger depths apply the finite-cone construction above.
+Theorem 22 of \cite{SST} produces a contour whose \(m\) sinks are
+distinct bad bins and whose edge count obeys
+\eqref{eq:edges-sinks}.
+
+Fix \(K=10(R+3)\). For each \(n\ge0\), use radius
+\(r=K(n+1)\). Define \(\mathcal E^a(b_0,r)\) to be the union, over
+the at most \((2R+1)^4\) predecessor roots and their candidate
+contours with \(n\) edges per charge in the deterministic finite
+cones, of the events that the named sinks are bad. At \(n=0\)
+include the current failed test as well. At other radii use the
+empty event. The sink events are deliberately larger than the
+events of actual contour presence; no intermediate good-map
+conditions need to be read.
+
+A connected contour has \(5n\) edges. Along an undirected walk from
+its root every edge changes space by at most \(R\) and time by one,
+even if that walk reverses the edge direction. Thus each sink
+lies within \(5Rn+R\) spatial units and \(5n+1\) dates of \(b_0\).
+Testing that sink adds \(R+3\) spatial units and no further date.
+The radius \(K(n+1)\) contains all those increments. This proves
+the asserted locality for every candidate in the union.
+
+Equations~\eqref{eq:contour-count}--\eqref{eq:joint-sinks} give
+constants \(C_0,C_1\), depending only on \(R\), such that
+\begin{equation}\label{eq:witness-prebound}
+ \Prb(\mathcal E^a(b_0,K(n+1)))
+ \le C_0C_1^n q^{(1+n/\alpha)/D_{\mathrm{dep}}}\qquad(n\ge0).
+\end{equation}
+The harmless polynomial \(n^2\) has been included in \(C_1^n\).
+Choose \(0<q<1\) small enough that both the constant part and the
+coefficient of \(n\) in the logarithm of this bound are at most
+\(-AK\). Then \eqref{eq:witness-cover} follows. The physical mark
+test realizes this \(q\) by choosing \(B\) and then \(\eta_0\).
+
+The union implication follows by selecting the contour furnished
+by the deterministic theorem, or the direct failed test. All cones
+and all candidate embeddings are specified without conditioning on
+their intervening marks. This also proves the measurability claim.
+Every sink lies after \(a\); all increments used are independent
+of the history through \(aT\). The same proof therefore gives the
+conditional bounds. On \(\Z^4\) no quotient identifies sink indices,
+so the argument works at every finite date.
+\end{proof}
+
+\paragraph{Witness balls that wrap the torus.}
+The radius \(K(n+1)\) is not restricted by the period \(M\).
+A spatial ball of radius above \(M/2\) wraps the torus and can cover
+all its spatial sites. This is harmless. Its meaning is the actual
+closed ball in the periodic product metric, and its support is a
+set of physical increments, with no repeated copies. Cone
+injectivity was used before this enlargement to charge the sinks
+of a single candidate; it is not asserted for the enlarged ball.
+The volume bound
+\[
+ |\Ball_\rho(b_0,r)|\le(2r+1)^5
+\]
+still holds, because taking a quotient can only decrease the number
+of spatial sites relative to that bound. Independence below is used
+only for balls disjoint as sets on the actual torus times time.
+Wrapping balls that overlap are never declared independent.
+
+\subsection{From certificates to a centered path estimate}
+
+\begin{proposition}[Centered path bound]\label{prop:path}
+Choose \(A\) in Proposition~\ref{prop:witness} sufficiently large,
+and fix the resulting parameters. There exist \(C,\kappa>0\),
+independent of \(L,a,D_w,z,k\), such that for every anchor \(b_0\)
+in a permissible window and every real \(u\ge0\),
+\begin{equation}\label{eq:path}
+ \Prb\left\{\begin{array}{l}
+ \text{a finite path in }\Proxy^a\text{ starts at }b_0\\
+ \text{and reaches }\rho\text{-distance at least }u
+ \end{array}\right\}\le Ce^{-\kappa u}.
+\end{equation}
+All vertices of the path are required to lie in that window.
+On \(\Z^4\) the window can be the entire half-space of dates \(k>a\).
+The bound is also valid conditionally on the physical history
+through \(aT\).
+\end{proposition}
+\begin{proof}
+Take a finite path realizing the event. Assign to each of its
+distinct vertices one occurring witness ball from
+Proposition~\ref{prop:witness}. There are finitely many assigned balls.
+Select disjoint closed balls greedily in decreasing radius. Each
+discarded ball meets a selected ball of at least its radius.
+Its center, and indeed the whole discarded ball, lies in the
+triple enlargement of that selected ball by the triangle inequality.
+Thus selected triple balls cover the path.
+
+If consecutive path vertices have covering centers \(c_i,c_j\)
+and selected radii \(r_i,r_j\), then
+\[
+ \rho(c_i,c_j)\le3r_i+3r_j+R.
+\]
+The graph of these adjacencies connects the covers of the endpoints.
+Choose a simple chain of selected centers between those covers,
+possibly a single center. Let its length be \(j\) and
+\(s=r_1+\cdots+r_j\). Endpoint displacements contribute at most
+\(3r_1+3r_j\). Summing the displayed adjacency bounds gives
+\[
+ u\le6s+R(j-1)\le7s,
+\]
+because each allowed radius is at least \(K>R\). This geometric
+argument uses the product metric itself and remains valid for
+wrapping balls.
+
+It remains to count deterministic candidate chains. For fixed
+ordered positive radii summing to the integer \(s\), the initial
+center lies within \(3r_1\) of the prescribed anchor, so has at most
+\((6r_1+1)^5\) choices. Each subsequent center has at most
+\((6r_i+6r_{i+1}+2R+1)^5\) choices. These are upper bounds both
+in the lattice and on the torus times time. Since \(r_i\ge K>R\),
+the product is at most \(e^{C_2s}\) for an absolute \(C_2\).
+For example, the initial factor costs at most \(e^{15r_1}\);
+the logarithm of each later factor is at most
+\(20(r_i+r_{i+1})\). Thus one may take \(C_2=60\).
+
+There are at most \(2^s\) ordered compositions of \(s\). Count only
+chains whose original closed balls are disjoint. Their witness
+events read disjoint basic increments, in space and time together,
+and therefore have joint probability at most \(e^{-As}\).
+Taking \(A>C_2+\log2+1\) and summing gives
+\[
+ \Prb(\text{path event})
+ \le\sum_{s\ge\max\{1,\lceil u/7\rceil\}}
+        e^{-(A-C_2-\log2)s}\le Ce^{-\kappa u}.
+\]
+The union is over deterministic chains, so no independence is
+claimed for centers selected after observing the marks. For an
+unbounded half-space every witnessing path is finite, and the same
+countable union gives the estimate. Conditional independence of
+increments after \(aT\) proves its conditional form.
+\end{proof}
+
+In particular the bound controls temporal paths of auxiliary zeros
+as well as spatial paths of visited blocks. This simultaneous use
+of space and time is what permits the window iteration.

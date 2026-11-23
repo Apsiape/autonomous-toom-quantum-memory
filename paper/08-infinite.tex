@@ -1,0 +1,145 @@
+\section{The process on the infinite lattice}\label{sec:infinite}
+
+We now give the construction and prove
+Theorem~\ref{thm:infinite}. No global chain of all events is ordered
+on the infinite lattice; there are infinitely many marks in any
+positive time interval. Local chronological dependency estimates
+provide the appropriate construction.
+
+\subsection{Graphical existence}
+
+\begin{lemma}[Finite influence on bounded intervals]\label{lem:graphical}
+For independent rate-one correction clocks and independent sector
+noise clocks of rate at most \(2\eta\) on each plaquette of \(\Z^4\),
+finite-volume constructions started empty agree on any fixed finite
+target set, throughout each bounded time interval, for all sufficiently
+large cuts, almost surely. Their common limit is a local
+right-continuous process with left limits. It preserves even degree
+at every syndrome vertex.
+\end{lemma}
+\begin{proof}
+Superpose the correction and noise marks of a face. Its rate is at
+most \(\Lambda=1+2\eta\), uniformly over faces. Fix a finite target
+set \(F\) and time length \(H_*>0\). If a discrepancy at a remote
+boundary affects an edge of \(F\), tracing dependencies backwards
+through the local maps produces a chronological chain of intersecting
+marked faces ending next to \(F\). A correction reads only its two
+tested edges and toggles its boundary, so any discrepancy it creates
+has such a predecessor. A noise mark acts by the same fixed toggle
+in both constructions and cannot create a discrepancy from equal
+inputs. Allowing it as a possible dependency step only enlarges
+the set of chains being counted.
+
+There are at most \(C_F\) terminal faces next to \(F\), and at most
+96 predecessor face labels for each subsequent step. For any
+specified sequence of \(m\) labels, the ordered factorial-moment
+integral is bounded by \((\Lambda H_*)^m/m!\), including repeated
+labels. Therefore
+\begin{equation}\label{eq:infinite-influence}
+ \Prb\{\text{such a chain of length }m\}
+ \le C_F\frac{(96\Lambda H_*)^m}{m!}.
+\end{equation}
+The series of the right sides over \(m\) converges. A dependency
+from distance tending to infinity requires length tending to
+infinity, because consecutive face anchors differ by at most one
+in each coordinate. By the summability in
+\eqref{eq:infinite-influence}, almost surely sufficiently long
+chains do not occur. Hence all sufficiently large finite cuts
+agree on \(F\) throughout \([0,H_*]\). Any boundary convention
+confined to the cut boundary has the same limit.
+
+Intersect these probability-one events over increasing finite target
+boxes and integer \(H_*\). The resulting limits agree on overlaps
+and define consistent local paths for all \(t\ge0\).
+Each fixed edge is incident to finitely many face processes and
+is therefore touched only finitely often on a bounded interval.
+The paths are right-continuous with left limits. Every vertex
+initially has degree zero, and each local face toggle changes its
+degree by zero modulo two. This parity property passes from the
+finite constructions to the local limit.
+\end{proof}
+
+The same construction can be made simultaneously in the two
+marginal sectors with shared \(Y\) marks. The assertions here need
+only the construction and law of one named sector. They do not
+require a definition of an infinite-volume encoded quantum state.
+
+\subsection{Uniform component tails}
+
+Use ordinary blocks
+\[
+ Q_z=Bz+\{0,\ldots,B-1\}^4,\qquad z\in\Z^4,
+\]
+with the fixed \(B,T,R\) already chosen for a sufficiently small
+noise threshold. The local tests and clean cuts of
+Section~\ref{sec:local} are finite objects, so they apply to the
+graphical limit. Their probabilities and predecessor implications
+are unchanged. By induction, physical visits satisfy
+\eqref{eq:domination} for every finite slab index.
+
+Every comparison root at finite date has a finite dependency cone.
+There is no periodic identification and no bound on its permissible
+depth. Thus Proposition~\ref{prop:witness} gives the certificates
+uniformly in the root date. Proposition~\ref{prop:path} applies on
+the entire half-space of dates \(k>0\). One can also obtain its
+half-space assertion by applying the finite-path argument directly:
+each finite witnessing path has a finite maximum date, and the
+deterministic chain count already includes all possible center
+dates with the stated distance restrictions.
+
+\begin{proof}[Proof of Theorem~\ref{thm:infinite}]
+Existence and parity follow from Lemma~\ref{lem:graphical}.
+Fix \(x,t,d\), and let \(z_x\) be the block containing \(x\).
+Take the slab containing \(t\), with index \(k\), as specified after
+the theorem. Suppose at a common instant of that slab \(x\) belongs
+to a component of diameter at least \(d\).
+For a finite component, the triangle inequality implies that
+some vertex has distance at least \(d/2\) from \(x\); if the
+diameter is only a supremum one can decrease this target radius
+arbitrarily and pass to a limit of the corresponding events.
+An unbounded component likewise supplies a finite connecting
+edge path to any fixed radius.
+
+The blocks along a connecting physical edge path form a spatial
+path in \(\Proxy^0(\cdot,k)\) by \eqref{eq:domination}. Starting at
+\(z_x\), it reaches coarse distance at least
+\(d/(2B)-1\). Proposition~\ref{prop:path} bounds the probability
+by
+\[
+ C\exp\left[-\kappa\max\{0,d/(2B)-1\}\right]
+ \le C'e^{-\mu d}
+\]
+for \(\mu=\kappa/(2B)\), after enlarging \(C'\).
+This proves the whole-slab estimate, uniformly in \(x\) and \(k\).
+The event at the specified time \(t\) is a subset. At \(t=0\) the
+instantaneous syndrome is empty; the whole-slab estimate uses
+the slab beginning there. These statements prove
+\eqref{eq:infinite-main} with uniform constants.
+
+For the low-noise density limit it is useful that the cost \(A\)
+in Proposition~\ref{prop:witness} is adjustable. At any specified
+block and date,
+\[
+ \Prb(\Proxy^0(z,k))\le\sum_{r\ge1}e^{-Ar}
+                         =\frac{1}{e^A-1}.
+\]
+Given \(\epsilon>0\), choose \(A\) large enough to make this
+quantity less than \(\epsilon\), and large enough for the path
+estimate if desired. Next choose \(q\), then \(B\), and then a
+positive threshold \(\eta_\epsilon\) by the certificate proof
+and Lemma~\ref{lem:bad-prob}. For every family of rates bounded
+by \(\eta_\epsilon\), occupation of \(x\) at any deterministic
+time implies this block proxy event in its slab. Hence its
+probability is at most \(\epsilon\), uniformly in \(x,t\) and
+the rate family. This is precisely the stated limit. The block
+scale in this density argument may depend on \(\epsilon\);
+the argument asserts no uniform limiting value for the decay
+constant \(\mu\) as the threshold is varied.
+\end{proof}
+
+For each specified vertex and time the diameter tail also rules out
+membership in an infinite component by letting \(d\) increase.
+This is a rooted estimate and carries no factor for the volume of
+the lattice. At a fixed positive noise rate new local syndromes
+continue to be created, so uniform-in-time tails do not mean that
+the entire infinite syndrome eventually becomes empty.
