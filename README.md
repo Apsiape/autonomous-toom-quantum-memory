@@ -4,7 +4,7 @@ Seth Douglas and Nidhal Mghirbi.
 
 Preprint, version 1.0.0, November 2026
 
-DOI: to be assigned
+[Archive DOI](https://doi.org/10.5281/zenodo.24457162) (all versions); version 1.0.0: [10.5281/zenodo.24457163](https://doi.org/10.5281/zenodo.24457163)
 
 ## Abstract
 
@@ -32,6 +32,6 @@ From `paper/`, run pdfLaTeX, BibTeX and pdfLaTeX twice, without shell escape (ma
 
 ## Citation and license
 
-Douglas, Seth, and Nidhal Mghirbi (2026). *An autonomous four-dimensional quantum memory from a time-independent Toom Lindbladian*. Version 1.0.0. [Citation metadata](CITATION.cff)
+Douglas, Seth, and Nidhal Mghirbi (2026). *An autonomous four-dimensional quantum memory from a time-independent Toom Lindbladian*. Version 1.0.0. [Archive DOI](https://doi.org/10.5281/zenodo.24457162) · [Citation metadata](CITATION.cff)
 
 Paper and documentation are licensed under CC BY 4.0. [Licensing details](RIGHTS.md)
